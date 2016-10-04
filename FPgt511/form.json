@@ -26,6 +26,7 @@
 		{ "type": "Button", "label": "IsFingerPress",  "onClick": "echo \" Finger gedrückt: \".(FPgt511_IsFingerPress($id) ? 'true' : 'false');"},		
 		{ "type": "Button", "label": "Identify",  "onClick": "echo \" Fingerabdruck identifiziert: \".(FPgt511_Identify($id) ? 'true' : 'false');"},	
 		{ "type": "Button", "label": "Enrollment",  "onClick": "echo \" Enrollment durchgeführt: \".(FPgt511_Enrollment($id) ? 'true' : 'false');"},
+		{ "type": "Button", "label": "Open",  "onClick": "FPgt511_Open($id,true);"},
 		{ "type": "Label", "label": "" }
 	]	
 } 
