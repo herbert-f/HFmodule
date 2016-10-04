@@ -10,7 +10,7 @@
    "elements": 
    [   
      { "type": "Label", "label": "Fingerprintreader Modul für GT511C3 " },
-	 { "type": "Label", "label": "Link: https://github.com/herbert-f/HFmodule/tree/master/FPgt511  " },
+	 { "type": "Label", "label": "Link: https://github.com/herbert-f/HFmodule/tree/master/FPgt511 " },
 	 { "type": "Label", "label": "Nachfolgende Auswahl nur für Analysen / im Normalbetrieb deaktivieren" },
 	 { "type": "CheckBox", "name": "logmax", "caption": "logmax (Aktiviert mehr Ausgaben über IPS-LogMessage)" },
      //{ "type": "Label", "label": "" },       

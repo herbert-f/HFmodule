@@ -3,7 +3,6 @@
 Fingerreader GT511C3
 ***************************************************************/
 
-//Klasse darf kein Leerzeichen haben
 	class FingerprintReaderGT511 extends IPSModule	{
 		public function Create() {
 			//Never delete this line!
@@ -35,7 +34,7 @@ Fingerreader GT511C3
 			$this->Antwort="erstbefuellung";
 		}
 	
-		public function ReceiveData($JSONString) { 						// Beispiel innerhalb einer Geräte/Device Instanz
+		public function ReceiveData($JSONString) { 						//Empfang DATEN - Beispiel innerhalb einer Geräte/Device Instanz - wird von PS aufgerufen
 			$debug=$this->ReadPropertyBoolean("logmax");
 			$Name=IPS_GetName($this->InstanceID);		
 			// Empfangene Daten vom Gateway/Splitter
@@ -193,7 +192,7 @@ Fingerreader GT511C3
 			return $erg;
         }	
 			
-        public function LEDein() {
+        public function LEDein() {										//LED ein
 			$debug=$this->ReadPropertyBoolean("logmax");
 			$Name=IPS_GetName($this->InstanceID);
 			if ($debug) IPS_LogMessage($Name,"LEDein gestartet");
@@ -202,7 +201,7 @@ Fingerreader GT511C3
 			return ($erg);			
         }
 
-		public function LEDaus() {
+		public function LEDaus() {										//LED aus
 			$debug=$this->ReadPropertyBoolean("logmax");
 			$Name=IPS_GetName($this->InstanceID);
 			if ($debug) IPS_LogMessage($Name,"LEDaus gestartet");
@@ -388,7 +387,7 @@ Fingerreader GT511C3
 			return $erg;
 		}
 
-		public function GetImage () {
+		public function GetImage () {									//derzeit nicht implementiert - kein Anwendungsfall
 			$debug=$this->ReadPropertyBoolean("logmax");
 			$Name=IPS_GetName($this->InstanceID);
 			$this->setBuffer("Command","GetImage");			
@@ -402,7 +401,7 @@ Fingerreader GT511C3
 			return $erg;
 		}		
 
-		public function GetRAWImage () {
+		public function GetRAWImage () {								//derzeit nicht implementiert - kein Anwendungsfall
 			$debug=$this->ReadPropertyBoolean("logmax");
 			$Name=IPS_GetName($this->InstanceID);
 			$this->setBuffer("Command","GetRAWImage");			
@@ -436,7 +435,7 @@ Fingerreader GT511C3
 		10   	Check Sum	WORD	Check Sum (byte addition) OFFSET[0]+…+OFFSET[9]=Check Sum
 		*/
 		
-		protected function  ResponseParameterAuswertung ($word1,$highbyte) {
+		protected function ResponseParameterAuswertung ($word1,$highbyte) {	//Auswertung der Rückmeldungen 
 			$debug=$this->ReadPropertyBoolean("logmax");
 			$Name=IPS_GetName($this->InstanceID);
 			$Antwort=$this->getBuffer("Answer");
@@ -562,7 +561,7 @@ Fingerreader GT511C3
 			return $erg;
 		}	
 
-		protected function EnrollStart ($Speicherplatz) {
+		protected function EnrollStart ($Speicherplatz) {				
 			$debug=$this->ReadPropertyBoolean("logmax");
 			$Name=IPS_GetName($this->InstanceID);			
 			$this->setBuffer("Command","EnrollStart");
@@ -618,7 +617,7 @@ Fingerreader GT511C3
 			return $erg;
 		}				
 		
-		protected function buildstring ($Parameter,$Command)   {
+		protected function buildstring ($Parameter,$Command)   {		//erstellt Sendestring
 			/*StartString
 			COMMAND_START_CODE_1 = 0x55;    # Static byte to mark the beginning of a command packet    -    never changes
 			COMMAND_START_CODE_2 = 0xAA;    # Static byte to mark the beginning of a command packet    -    never changes
@@ -638,7 +637,7 @@ Fingerreader GT511C3
 			return 	$string;
 		}
 		
-		protected function checksum ($Msg) {
+		protected function checksum ($Msg) {							//berechnet Checksumme (nur in Senderichtung)
 			//http://easyonlineconverter.com/converters/checksum_converter.html
 			//http://binaer-dezimal-hexadezimal-umrechner.miniwebapps.de/
 			$ChkSum = 0;                         	// Checksumme initialisieren
@@ -671,7 +670,7 @@ Fingerreader GT511C3
 			return $CheckWord;
 		}		
 
-		protected function getParent() { 								// @return int|bool InstanzID des Parent, false wenn kein Parent vorhanden.								
+		protected function getParent() { 								//ermittelt übergeordnete Instanz - @return int|bool InstanzID des Parent, false wenn kein Parent vorhanden.								
 			$instance = IPS_GetInstance($this->InstanceID);
 			$Name=IPS_GetName($this->InstanceID);
 			return ($instance['ConnectionID'] > 0) ? $instance['ConnectionID'] : false;   //Ermittlung der COM_ID
@@ -699,7 +698,7 @@ Fingerreader GT511C3
 			return $string;
 		}
 		
-		protected function CreateScriptResetIdentify ()	{
+		protected function CreateScriptResetIdentify ()	{				//erstellt Script und Timer zum Rücksetzen der Indetify-Variable
 			$scriptid = $this->RegisterScript("ResetIdentify", "ResetIdentify", 
 			'<?
 $Par_ID=IPS_GetParent($_IPS[\'SELF\']);
@@ -723,7 +722,7 @@ else IPS_SetScriptTimer($_IPS[\'SELF\'],20);
 			IPS_SetEventActive($eid, true);             	//Ereignis aktivieren	
 		}
 	
-		protected function CreateScriptLED_Ein ()	{
+		protected function CreateScriptLED_Ein ()	{					//erstellt Script für LED ein (zum Test für Module-Beginner)
 			$scriptid = $this->RegisterScript("einschalten", "einschalten", 
 			'<?
 $Par_ID=IPS_GetParent($_IPS[\'SELF\']);
@@ -739,7 +738,7 @@ IPS_LogMessage($Name,"$Name eingeschaltet (".$_IPS[\'SELF\'].")");
 			//IPS_SetHidden($scriptid,true);
 		}
 			
-		protected function CreateScriptLED_Aus ()	{
+		protected function CreateScriptLED_Aus ()	{					//erstellt Script für LED ein (zum Test für Module-Beginner)
 			$scriptid = $this->RegisterScript("ausschalten", "ausschalten", 
 			'<?
 $Par_ID=IPS_GetParent($_IPS[\'SELF\']);
