@@ -2,8 +2,6 @@
 /**************************************************************
 Fingerreader GT511C3
 ***************************************************************/
-require_once(__DIR__. "/gt511c3.php");	
-
 //Klasse darf kein Leerzeichen haben
 	class FingerprintReaderGT511 extends IPSModule	{
 		public function Create() {
