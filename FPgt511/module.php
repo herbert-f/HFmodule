@@ -468,7 +468,7 @@ Fingerreader GT511C3
 			}
 			else {
 				if ($Befehl == "OnlyIdentify") {
-					IPS_LogMessage($Name,"Identify erfolgreich - Fingerabdruck erkannt - Speicherplatz: ".(hexdec($word1)-30));
+					IPS_LogMessage($Name,"Identify erfolgreich - Fingerabdruck erkannt - Speicherplatz: ".(hexdec($word1)-48));  //48 nichts in Doku enthalten
 				}
 				elseif ($Befehl == "GetEnrollCount") {
 					IPS_LogMessage($Name,"GetEnrollCount erfolgreich - belegte Speicherplätze: ".hexdec($word1));
