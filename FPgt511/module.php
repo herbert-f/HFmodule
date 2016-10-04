@@ -2,6 +2,7 @@
 /**************************************************************
 Fingerreader GT511C3
 ***************************************************************/
+
 //Klasse darf kein Leerzeichen haben
 	class FingerprintReaderGT511 extends IPSModule	{
 		public function Create() {
