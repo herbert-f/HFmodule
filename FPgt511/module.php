@@ -101,8 +101,7 @@ Fingerreader GT511C3
 				if ($Befehl=="GetRawImage") {
 					if (strlen($recString) >= 22) {
 						list($first,$last) = explode ('A5 01 00',$recString);     //um sicher zweiten Teil zu bekommen
-						//$telegram0=$telearray['0'];
-						//$telegram1=$telearray['1'];
+						return false;
 						/*if ($debug) echo "first-string=$first   last-string=$last";
 						$Firmware=substr($last,1,2).".".substr($last,4,2).".".substr($last,10,2).substr($last,7,2);		
 						SetValue ($Antwort_ID,"Firmware ist $Firmware");
@@ -111,7 +110,7 @@ Fingerreader GT511C3
 							$FirmwareID=IPS_GetVariableIDByName("Firmwaredatum",$FingerOrdner);
 							SetValue ($FirmwareID,$Firmware);
 						}*/
-						base64_decode($hexdata);
+						base64_decode($recString);
 					}	
 				}
 			}
@@ -469,7 +468,7 @@ Fingerreader GT511C3
 			}
 			else {
 				if ($Befehl == "Identify") {
-					IPS_LogMessage($Name,"Identify erfolgreich - Speicherplatz: ".hexdec($word1));
+					IPS_LogMessage($Name,"Identify erfolgreich - Fingerabdruck erkannt - Speicherplatz: ".hexdec($word1));
 				}
 				elseif ($Befehl == "GetEnrollCount") {
 					IPS_LogMessage($Name,"GetEnrollCount erfolgreich - belegte Speicherplätze: ".hexdec($word1));
@@ -548,12 +547,12 @@ Fingerreader GT511C3
 		}
 		
 		protected function OnlyIdentify () {							//only Identify Command - for real identify needs Capture
-			$debug=$this->ReadPropertyBoolean("logmax");
-			$Name=IPS_GetName($this->InstanceID);
+			$debug=$this->ReadPropertyBoolean("logmax");				
+			$Name=IPS_GetName($this->InstanceID);						//1:N Identification of the capture fingerprint image with the database
 			$this->setBuffer("Command","OnlyIdentify");
 			$this->setBuffer("Answer","Begin");
-			if ($debug) IPS_LogMessage($Name,"OnlyIdentify gestartet");         // 1:N Identification of the capture fingerprint image with the database
-			$Command=array("\x51","\x00");									//
+			if ($debug) IPS_LogMessage($Name,"OnlyIdentify gestartet");	
+			$Command=array("\x51","\x00");									
 			$Parameter=array("\x00","\x00","\x00","\x00");
 			$sendestring=$this->buildstring ($Parameter,$Command);
 			$erg=$this->senden ($sendestring,"OnlyIdentify",4,500,"ACK");
