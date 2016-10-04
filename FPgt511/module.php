@@ -242,7 +242,7 @@ Fingerreader GT511C3
 			$Command=array("\x20","\x00");										//0: not to get extra info Nonzero: to get extra info
 			$Parameter=array("\x00","\x00","\x00","\x00");
 			$sendestring=$this->buildstring ($Parameter,$Command);
-			$this->senden ($sendestring,"GetEnrollCount",3,1200,"ACK");
+			$this->senden ($sendestring,"GetEnrollCount",3,600,"ACK");
 			if ($this->getBuffer("ANSWER") == "NOACK") {
 				$erg = "Fehler bei Abruf - erneut versuchen!";
 			}
@@ -556,6 +556,11 @@ Fingerreader GT511C3
 			$Parameter=array("\x00","\x00","\x00","\x00");
 			$sendestring=$this->buildstring ($Parameter,$Command);
 			$erg=$this->senden ($sendestring,"OnlyIdentify",4,500,"ACK");
+			if ($erg) {
+				$Identify_ID=IPS_GetVariableIDByName("Identify",$this->InstanceID); 
+				SetValueBoolean($Identify_ID,true);
+				if ($debug) IPS_LogMessage($Name,"Setze Variable Identify ($Identify_ID) auf true"); 
+			}
 			if ($debug) IPS_LogMessage($Name,"OnlyIdentify beendet"); 
 			return $erg;
 		}	
