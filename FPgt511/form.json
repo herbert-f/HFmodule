@@ -1,0 +1,31 @@
+{ 
+    "status":
+   [
+        { "code": 101, "icon": "inactive", "caption": "Instanz wird erstellt" },
+        { "code": 102, "icon": "active", "caption": "Instanz ist aktiv" },
+        { "code": 104, "icon": "inactive", "caption": "Instanz ist inaktiv" },
+        { "code": 200, "icon": "error", "caption": "Instanz ist fehlerhaft" }
+   ],
+   
+   "elements": 
+   [   
+     { "type": "Label", "label": "Fingerprintreader Modul für GT511C3 " },
+	 { "type": "Label", "label": "Link: https://github.com/herbert-f/HFmodule/tree/master/FPgt511  " },
+	 { "type": "Label", "label": "Nachfolgende Auswahl nur für Analysen / im Normalbetrieb deaktivieren" },
+	 { "type": "CheckBox", "name": "logmax", "caption": "logmax (Aktiviert mehr Ausgaben über IPS-LogMessage)" },
+     //{ "type": "Label", "label": "" },       
+     { "type": "Label", "label": "Für Befehle mit Scanfunktion (IsPressFinger, Identify, Enrollment...) muss die LED ein sein!" },
+	 { "type": "Label", "label": "Ein komplettes Einlernen (Enrollment) kann ca. 45 Sekunden dauern ! (Der Finger muss die ganze Zeit auf den Reader gedrückt werden)" }
+   ],
+   
+   	"actions":
+	[
+		{ "type": "Button", "label": "LED ein",  "onClick": "FPgt511_LEDein($id);"},	
+		{ "type": "Button", "label": "LED aus",  "onClick": "FPgt511_LEDaus($id);"},
+		{ "type": "Button", "label": "GetEnrollCount",  "onClick": "echo \" Anzahl belegter Speicherplätze: \".FPgt511_GetEnrollCount($id);"},
+		{ "type": "Button", "label": "IsFingerPress",  "onClick": "echo \" Finger gedrückt: \".(FPgt511_IsFingerPress($id) ? 'true' : 'false');"},		
+		{ "type": "Button", "label": "Identify",  "onClick": "echo \" Fingerabdruck identifiziert: \".(FPgt511_Identify($id) ? 'true' : 'false');"},	
+		{ "type": "Button", "label": "Enrollment",  "onClick": "echo \" Enrollment durchgeführt: \".(FPgt511_Enrollment($id) ? 'true' : 'false');"},
+		{ "type": "Label", "label": "" }
+	]	
+} 
