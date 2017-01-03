@@ -27,20 +27,15 @@ angebunden werden.
 	
 ##4. Installation Hardware
 
-* Anschluss des Fingerprintreaders GT511C3 an einen Raspberry-PI 2:
-	Der Anschluss ist denkbar einfach, der Fingerprintreader GT-511C3 wird direkt, also ohne weitere Bauelemente,
-	an den RaspberryPI angeschlossen. 
-	In folgender PDF-Datei ist der Hardwareanschluss dargestellt:
-	https://github.com/herbert-f/HFmodule/blob/master/FPgt511/manual/Anschlussplan_GT511.pdf.
+### Anschluss des Fingerprintreaders GT511C3 an einen Raspberry-PI 2:
+Der Anschluss ist denkbar einfach, der Fingerprintreader GT-511C3 wird direkt, also ohne weitere Bauelemente, an den RaspberryPI angeschlossen.    
+In folgender PDF-Datei ist der Hardwareanschluss dargestellt: https://github.com/herbert-f/HFmodule/blob/master/FPgt511/manual/Anschlussplan_GT511.pdf.
 
-	Wen auch das Datenblatt des Fingerprintreader interessiert: 
-	(Datasheet: https://www.sparkfun.com/products/11792)
+Wen auch das Datenblatt des Fingerprintreader interessiert:	(Datasheet: https://www.sparkfun.com/products/11792)
 
 ### Bezug Fingerprintreader und Adapterkabel:
-	Der Fingerprintreader GT-511C3 ist online erhältlich, ich habe diesen hier bezogen:
-	https://www.electronic-shop.lu/DE/products/152040.
-	Wichtig ist, ein passendes Kabel (https://www.electronic-shop.lu/DE/products/152414) zu bestellen,
-	ein Löten am Modul erscheint mir nicht sinnvoll.
+Der Fingerprintreader GT-511C3 ist online erhältlich, ich habe diesen hier bezogen:	https://www.electronic-shop.lu/DE/products/152040.   
+Wichtig ist, ein passendes Kabel (https://www.electronic-shop.lu/DE/products/152414) zu bestellen, ein Löten am Modul erscheint mir nicht sinnvoll.
  	
 	
 ##5. Konfiguration in IPS
