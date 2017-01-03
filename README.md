@@ -2,29 +2,28 @@
 
 
 ##FPgt511 - Fingerprint Reader GT511C3
-	* Fingerprintreader-Modul GT-511C3 für IP-Symcon (www.ip-symcon.de),entwickelt und getestet auf RaspberryPI,
+Fingerprintreader-Modul GT-511C3 für IP-Symcon (www.ip-symcon.de),entwickelt und getestet auf RaspberryPI,
 	sollte aber an jeder seriellen Schnittstelle funktionieren.
 
 ##1. Funktionsumfang
 
-	* Mit diesem Modul kann der Fingerabdruckleser (GT511C3) über eine serielle Schnittstelle an IP-Symcon
-	angebunden werden. 
-	* Es können alle relevanten Funktionen des Lesers über IP-Symcon gesteuert werden.
+*Mit diesem Modul kann der Fingerabdruckleser (GT511C3) über eine serielle Schnittstelle an IP-Symcon
+angebunden werden. 
+*Es können alle relevanten Funktionen des Lesers über IP-Symcon gesteuert werden.
 
 ##2. Anforderungen
 
-	* IPS 4.x
-	* Fingerprint Reader GT511C3
+    * IPS 4.x
+* Fingerprint Reader GT511C3
 	* Serielle Schnittstelle (Test ist nur auf Raspberry erfolgt)
 	
 ##3. Installation in IPS
 
-	*IPS 4.x
+*IPS 4.x
 	Über das 'Modul Control' folgende URL hinzufügen:
 	https://github.com/herbert-f/HFmodule.git
 	
-	Dieses Modul "Fingerprint Reader GT511C3" kann überall im IPS-Baum hinzugefügt werden, es muss aber der
-	zugehörige Serial-Port als übergeordnete Instanz ausgewählt werden.
+Dieses Modul "Fingerprint Reader GT511C3" kann überall im IPS-Baum hinzugefügt werden, es muss aber der zugehörige Serial-Port als übergeordnete Instanz ausgewählt werden.
 
 	
 ##4. Installation Hardware
@@ -47,14 +46,14 @@
 	
 ##5. Konfiguration in IPS
 
-	* Mittels der Funktionen im Testbereich des Moduls kann auch das Anlernen erfolgen (LED muss ein sein). 
+* Mittels der Funktionen im Testbereich des Moduls kann auch das Anlernen erfolgen (LED muss ein sein). 
 
-	* Im Normalbetrieb erweist sich ein zyklischer Aufruf von "FPgt511_IsFingerPress($ID_Instanz);" als sinnvolle
-	Variante,bei Erfolg kann mittels  "FPgt511_Identify($ID_Instanz);" der Fingerabdruck überprüft werden.
+* Im Normalbetrieb erweist sich ein zyklischer Aufruf von "FPgt511_IsFingerPress($ID_Instanz);" als sinnvolle
+Variante,bei Erfolg kann mittels  "FPgt511_Identify($ID_Instanz);" der Fingerabdruck überprüft werden.
 
-	* Unterhalb des Moduls werden drei Variablen erzeugt (Identify, LED und Firmwaredatum). Die Identify-Variable
-	wird bei erfolgreicher Identifizierung auf "true" gesetzt und per Script und Timer nach 20 Sekunden wieder
-	zurückgesetzt. Somit kann auf diese Variable auch getriggert werden.
+* Unterhalb des Moduls werden drei Variablen erzeugt (Identify, LED und Firmwaredatum). Die Identify-Variable
+wird bei erfolgreicher Identifizierung auf "true" gesetzt und per Script und Timer nach 20 Sekunden wieder
+zurückgesetzt. Somit kann auf diese Variable auch getriggert werden.
 
 ###Aufruf der Funktionen des Moduls
 ####FPgt511_SetLED($ID_Instanz,$Status);
