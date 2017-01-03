@@ -2,20 +2,20 @@
 
 
 ##FPgt511 - Fingerprint Reader GT511C3
-Fingerprintreader-Modul GT-511C3 für IP-Symcon (www.ip-symcon.de),entwickelt und getestet auf RaspberryPI,
+Fingerprintreader-Modul GT-511C3 für IP-Symcon (www.ip-symcon.de), entwickelt und getestet auf RaspberryPI,
 	sollte aber an jeder seriellen Schnittstelle funktionieren.
 
 ##1. Funktionsumfang
 
-*Mit diesem Modul kann der Fingerabdruckleser (GT511C3) über eine serielle Schnittstelle an IP-Symcon
+* Mit diesem Modul kann der Fingerabdruckleser (GT511C3) über eine serielle Schnittstelle an IP-Symcon
 angebunden werden. 
-*Es können alle relevanten Funktionen des Lesers über IP-Symcon gesteuert werden.
+* Es können alle relevanten Funktionen des Lesers über IP-Symcon gesteuert werden.
 
 ##2. Anforderungen
 
-    * IPS 4.x
+* IPS 4.x
 * Fingerprint Reader GT511C3
-	* Serielle Schnittstelle (Test ist nur auf Raspberry erfolgt)
+* Serielle Schnittstelle (Test ist nur auf Raspberry erfolgt)
 	
 ##3. Installation in IPS
 
