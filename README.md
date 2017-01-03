@@ -19,16 +19,15 @@ angebunden werden.
 	
 ##3. Installation in IPS
 
-*IPS 4.x
-	Über das 'Modul Control' folgende URL hinzufügen:
-	https://github.com/herbert-f/HFmodule.git
+* IPS 4.x
+	* Über das 'Modul Control' folgende URL hinzufügen:	https://github.com/herbert-f/HFmodule.git
 	
-Dieses Modul "Fingerprint Reader GT511C3" kann überall im IPS-Baum hinzugefügt werden, es muss aber der zugehörige Serial-Port als übergeordnete Instanz ausgewählt werden.
+    * Dieses Modul "Fingerprint Reader GT511C3" kann überall im IPS-Baum hinzugefügt werden, es muss aber der zugehörige Serial-Port als übergeordnete Instanz ausgewählt werden.
 
 	
 ##4. Installation Hardware
 
-	###Anschluss des Fingerprintreaders GT511C3 an einen Raspberry-PI 2:
+	### Anschluss des Fingerprintreaders GT511C3 an einen Raspberry-PI 2:
 	Der Anschluss ist denkbar einfach, der Fingerprintreader GT-511C3 wird direkt, also ohne weitere Bauelemente,
 	an den RaspberryPI angeschlossen. 
 	In folgender PDF-Datei ist der Hardwareanschluss dargestellt:
@@ -37,7 +36,7 @@ Dieses Modul "Fingerprint Reader GT511C3" kann überall im IPS-Baum hinzugefügt
 	Wen auch das Datenblatt des Fingerprintreader interessiert: 
 	(Datasheet: https://www.sparkfun.com/products/11792)
 
-	###Bezug Fingerprintreader und Adapterkabel:
+	### Bezug Fingerprintreader und Adapterkabel:
 	Der Fingerprintreader GT-511C3 ist online erhältlich, ich habe diesen hier bezogen:
 	https://www.electronic-shop.lu/DE/products/152040.
 	Wichtig ist, ein passendes Kabel (https://www.electronic-shop.lu/DE/products/152414) zu bestellen,
