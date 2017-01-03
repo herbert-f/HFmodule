@@ -27,7 +27,7 @@ angebunden werden.
 	
 ##4. Installation Hardware
 
-### Anschluss des Fingerprintreaders GT511C3 an einen Raspberry-PI 2:
+* Anschluss des Fingerprintreaders GT511C3 an einen Raspberry-PI 2:
 	Der Anschluss ist denkbar einfach, der Fingerprintreader GT-511C3 wird direkt, also ohne weitere Bauelemente,
 	an den RaspberryPI angeschlossen. 
 	In folgender PDF-Datei ist der Hardwareanschluss dargestellt:
