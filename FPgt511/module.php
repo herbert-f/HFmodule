@@ -276,7 +276,7 @@ Fingerreader GT511C3
 			if ($enroll_quality==true) {
 				$Parameter=array("\x01","\x00","\x00","\x00");                   //Parameter =0: not best image, but fast Nonzero:best image, but slow
 				if ($debug) IPS_LogMessage($Name,"CaptureFinger gestartet: quality high - but slow");  
-				$time=1100;
+				$time=1500;
 			}
 			else {
 				$Parameter=array("\x00","\x00","\x00","\x00");                   //Parameter =0: not best image, but fast  Nonzero:best image, but slow
@@ -367,7 +367,7 @@ Fingerreader GT511C3
 			}
 			$Command=array("\x01","\x00");                          
 			$sendestring=$this->buildstring ($Parameter,$Command);
-			$erg=$this->senden ($sendestring,"Open",4,1200,"ACK");
+			$erg=$this->senden ($sendestring,"Open",4,1500,"ACK");
 			if ($debug) IPS_LogMessage($Name,"Open beendet");			
 			return $erg;
 		}
@@ -522,7 +522,8 @@ Fingerreader GT511C3
 			$Befehl=$this->GetBuffer("Command");
 			if ($debug) IPS_LogMessage($Name,"Senden: ".$this->ascii2hex($sendestring));
 			while ($Antwort!=$answer) {
-				SPRT_SendText($COM_ID, $sendestring);  //über seriellen Port direkt
+				//SPRT_SendText($COM_ID, $sendestring);  //über seriellen Port direkt //sollte nicht verwandt werden (Probleme beim Test unter Windows)
+				SendDataToParent ($sendestring);
 				IPS_Sleep($delay);
 				$Antwort=$this->GetBuffer("Answer");
 				//
@@ -588,7 +589,7 @@ Fingerreader GT511C3
 			$Command=array("\x23","\x00");										//
 			$Parameter=array("\x00","\x00","\x00","\x00");
 			$sendestring=$this->buildstring ($Parameter,$Command);
-			$erg=$this->senden ($sendestring,"Enroll1",4,1100,"ACK");
+			$erg=$this->senden ($sendestring,"Enroll1",4,1500,"ACK");
 			if ($debug) IPS_LogMessage($Name,"Enroll1 beendet");	
 			return $erg;
 		}	
@@ -602,7 +603,7 @@ Fingerreader GT511C3
 			$Command=array("\x24","\x00");										//
 			$Parameter=array("\x00","\x00","\x00","\x00");
 			$sendestring=$this->buildstring ($Parameter,$Command);
-			$erg=$this->senden ($sendestring,"Enroll2",4,1100,"ACK");
+			$erg=$this->senden ($sendestring,"Enroll2",4,1500,"ACK");
 			if ($debug) IPS_LogMessage($Name,"Enroll2 beendet");	
 			return $erg;
 		}	
@@ -616,7 +617,7 @@ Fingerreader GT511C3
 			$Command=array("\x25","\x00");										//
 			$Parameter=array("\x00","\x00","\x00","\x00");
 			$sendestring=$this->buildstring ($Parameter,$Command);
-			$erg=$this->senden ($sendestring,"Enroll3",4,1100,"ACK");
+			$erg=$this->senden ($sendestring,"Enroll3",4,1500,"ACK");
 			if ($debug) IPS_LogMessage($Name,"Enroll3 beendet");	
 			return $erg;
 		}				
