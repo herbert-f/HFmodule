@@ -715,7 +715,7 @@ if($_IPS[\'SENDER\'] == "TimerEvent") {
 else IPS_SetScriptTimer($_IPS[\'SELF\'],20);
 ?>'
 			, -3);	
-			$Identify_ID=IPS_GetVariableIDByName("Identify",$this->InstanceID); 
+			$Identify_ID=IPS_GetVariableIDByName("Identify",$this->InstanceID);  
 			IPS_LogMessage("Fingerprintreader","Identify: $Identify_ID");
 			if (@IPS_GetScriptIDByName("ResetIdentify",$Identify_ID)!=false) return;
 			@IPS_SetParent($scriptid,$Identify_ID);
