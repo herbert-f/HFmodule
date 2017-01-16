@@ -711,8 +711,8 @@ Fingerreader GT511C3
 		
 		protected function CreateScriptResetIdentify ()	{				//erstellt Script und Timer zum Rücksetzen der Indetify-Variable
 			$Identify_ID=IPS_GetVariableIDByName("Identify",$this->InstanceID); 
-			if (IPS_GetVariableIDByName("Speicherplatz",$Identify_ID)!=false) {
-				IPS_SetParent(IPS_GetVariableIDByName("Speicherplatz",$Identify_ID),$Identify_ID);
+			if (IPS_GetVariableIDByName("Speicherplatz",$this->InstanceID)!=false) {
+				IPS_SetParent(IPS_GetVariableIDByName("Speicherplatz",$this->InstanceID),$Identify_ID);
 			}	
 			if (@IPS_GetScriptIDByName("ResetIdentify",$Identify_ID)!=false) return;
 			$scriptid = $this->RegisterScript("ResetIdentify", "ResetIdentify",  
