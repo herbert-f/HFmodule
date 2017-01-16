@@ -523,7 +523,7 @@ Fingerreader GT511C3
 			if ($debug) IPS_LogMessage($Name,"Senden: ".$this->ascii2hex($sendestring));
 			while ($Antwort!=$answer) {
 				//SPRT_SendText($COM_ID, $sendestring);  //über seriellen Port direkt //sollte nicht verwandt werden (Probleme beim Test unter Windows)
-				$this->SendDataToParent(json_encode(Array("DataID" => "{018EF6B5-AB94-40C6-AA53-46943E824ACF}", "Buffer" => $sendestring)));
+				$this->SendDataToParent(json_encode(Array("DataID" => "{3F4A81EA-A507-4EEB-B2A5-25DC0E644EA2}", "Buffer" => $sendestring)));
 				IPS_Sleep($delay);
 				$Antwort=$this->GetBuffer("Answer");
 				//
