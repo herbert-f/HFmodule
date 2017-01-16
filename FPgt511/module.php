@@ -724,7 +724,9 @@ if($_IPS[\'SENDER\'] == "TimerEvent") {
 	IPS_LogMessage($Name,"IDENTIFY über Timer wieder ausgeschaltet (".$_IPS[\'SELF\'].")");
 	IPS_SetScriptTimer($_IPS[\'SELF\'],0);
 }	
-else IPS_SetScriptTimer($_IPS[\'SELF\'],20);
+elseif (GetValueBoolean($Par_ID)==true) {
+	IPS_SetScriptTimer($_IPS[\'SELF\'],20);
+}	
 ?>'
 			, -3);		
 			IPS_LogMessage("Fingerprintreader","Identify: $Identify_ID");
