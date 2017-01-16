@@ -523,9 +523,6 @@ Fingerreader GT511C3
 			if ($debug) IPS_LogMessage($Name,"Senden: ".$this->ascii2hex($sendestring));
 			while ($Antwort!=$answer) {
 				//SPRT_SendText($COM_ID, $sendestring);  //über seriellen Port direkt //sollte nicht verwandt werden (Probleme beim Test unter Windows)
-				//$data = json_decode($sendestring);
-				IPS_LogMessage("ForwardData", utf8_encode($sendestring));
-				//$this->SendDataToParent(json_encode(Array("DataID" => "{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}", "Buffer" => $data->Buffer))); // Weiterverarbeiten und durchreichen
 				$this->SendDataToParent(json_encode(Array("DataID" => "{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}", "Buffer" => utf8_encode($sendestring))));
 				IPS_Sleep($delay);
 				$Antwort=$this->GetBuffer("Answer");
@@ -548,8 +545,7 @@ Fingerreader GT511C3
 				}
 			}
 			return;
-		}
-		
+		}		
 		protected function OnlyIdentify () {							//only Identify Command - for real identify needs Capture
 			$debug=$this->ReadPropertyBoolean("logmax");				
 			$Name=IPS_GetName($this->InstanceID);						//1:N Identification of the capture fingerprint image with the database
