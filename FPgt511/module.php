@@ -15,7 +15,7 @@ Fingerreader GT511C3
 			//
 			$this->RegisterVariableString ("Firmwaredatum", "Firmwaredatum");
 			$Identify_ID=$this->RegisterVariableBoolean ("Identify","Identify","","-10" );
-			$Speicherplatz_ID=$this->RegisterVariableInteger ("Speicherplatz","Speicherplatz","","-1" );
+			$Speicherplatz_ID=$this->RegisterVariableInteger ("Speicherplatz","Speicherplatz","","-5" );
 			IPS_SetParent($Speicherplatz_ID,$Identify_ID);
 			$this->RegisterVariableBoolean ("LED","LED","~Switch","-5" );			
 			//erst nach Variablenerstellung				
@@ -471,6 +471,9 @@ Fingerreader GT511C3
 			else {
 				if ($Befehl == "OnlyIdentify") {
 					IPS_LogMessage($Name,"Identify erfolgreich - Fingerabdruck erkannt - Speicherplatz: ".(hexdec($word1)-48));  //48 nichts in Doku enthalten
+					$Identify_ID=IPS_GetVariableIDByName("Identify",$this->InstanceID);
+					$Speicherplatz_ID=IPS_GetVariableIDByName("Speicherplatz",$Identify_ID); 	
+					SetValueInteger($Speicherplatz_ID,(hexdec($word1)-48))
 				}
 				elseif ($Befehl == "GetEnrollCount") {
 					IPS_LogMessage($Name,"GetEnrollCount erfolgreich - belegte Speicherplätze: ".hexdec($word1));
