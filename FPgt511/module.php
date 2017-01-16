@@ -697,7 +697,7 @@ Fingerreader GT511C3
 		  return $hex;
 		}
 
-		protected function hexToStr($hex){
+		protected function hexToStr($hex){ 
 			$string='';
 			//if ($debug) echo "\nLänge=".strlen($hex)."  $hex ";
 			if (strlen($hex)==1) {
