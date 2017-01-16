@@ -473,7 +473,7 @@ Fingerreader GT511C3
 					IPS_LogMessage($Name,"Identify erfolgreich - Fingerabdruck erkannt - Speicherplatz: ".(hexdec($word1)-48));  //48 nichts in Doku enthalten
 					$Identify_ID=IPS_GetVariableIDByName("Identify",$this->InstanceID);
 					$Speicherplatz_ID=IPS_GetVariableIDByName("Speicherplatz",$Identify_ID); 	
-					SetValueInteger($Speicherplatz_ID,(hexdec($word1)-48))
+					SetValueInteger($Speicherplatz_ID,(hexdec($word1)-48));
 				}
 				elseif ($Befehl == "GetEnrollCount") {
 					IPS_LogMessage($Name,"GetEnrollCount erfolgreich - belegte Speicherplätze: ".hexdec($word1));
