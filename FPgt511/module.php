@@ -14,7 +14,9 @@ Fingerreader GT511C3
 			IPS_LogMessage("FingerprintReader","Instanz erstellt - InstanzID(in Module)=$Instanz_ID");
 			//
 			$this->RegisterVariableString ("Firmwaredatum", "Firmwaredatum");
-			$this->RegisterVariableBoolean ("Identify","Identify","","-10" );
+			$Identify_ID=$this->RegisterVariableBoolean ("Identify","Identify","","-10" );
+			$Speicherplatz_ID=$this->RegisterVariableInteger ("Speicherplatz","Speicherplatz","","-1" );
+			IPS_SetParent($Speicherplatz_ID,$Identify_ID);
 			$this->RegisterVariableBoolean ("LED","LED","~Switch","-5" );			
 			//erst nach Variablenerstellung				
 			//
