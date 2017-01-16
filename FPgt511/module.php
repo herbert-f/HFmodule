@@ -18,9 +18,9 @@ Fingerreader GT511C3
 			$this->RegisterVariableBoolean ("LED","LED","~Switch","-5" );			
 			//erst nach Variablenerstellung				
 			//
-			$this->CreateScriptResetIdentify();
 			$this->CreateScriptLED_Ein();
 			$this->CreateScriptLED_Aus();
+			$this->CreateScriptResetIdentify();
 		}
 		
 		public function Destroy()	{
