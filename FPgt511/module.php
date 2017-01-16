@@ -728,6 +728,8 @@ else IPS_SetScriptTimer($_IPS[\'SELF\'],20);
 		}
 	
 		protected function CreateScriptLED_Ein ()	{					//erstellt Script für LED ein (zum Test für Module-Beginner)
+			$LED_ID=IPS_GetVariableIDByName("LED",$this->InstanceID); 
+			if (@IPS_GetScriptIDByName("einschalten",$LED_ID)!=false) return;
 			$scriptid = $this->RegisterScript("einschalten", "einschalten", 
 			'<?
 $Par_ID=IPS_GetParent($_IPS[\'SELF\']);
@@ -744,6 +746,8 @@ IPS_LogMessage($Name,"$Name eingeschaltet (".$_IPS[\'SELF\'].")");
 		}
 			
 		protected function CreateScriptLED_Aus ()	{					//erstellt Script für LED ein (zum Test für Module-Beginner)
+			$LED_ID=IPS_GetVariableIDByName("LED",$this->InstanceID); 
+			if (@IPS_GetScriptIDByName("einschalten",$LED_ID)!=false) return;		
 			$scriptid = $this->RegisterScript("ausschalten", "ausschalten", 
 			'<?
 $Par_ID=IPS_GetParent($_IPS[\'SELF\']);
