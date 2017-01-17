@@ -11,8 +11,9 @@ Schnittstelle funktionieren.
 3. Im Normalbetrieb erweist sich ein zyklischer Aufruf von "FPgt511_IsFingerPress($ID_Instanz);" als sinnvolle Variante, 
 bei Erfolg kann mittels  "FPgt511_Identify($ID_Instanz);" der Fingerabdruck überprüft werden.
 
-4. Unterhalb des Moduls werden drei Variablen erzeugt (Identify, LED und Firmwaredatum). Die Identify-Variable wird bei erfolgreicher Identifizierung auf "true" gesetzt
+4. Unterhalb des Moduls werden vier Variablen erzeugt (Identify, LED, Speicherplatz und Firmwaredatum). Die Identify-Variable wird bei erfolgreicher Identifizierung auf "true" gesetzt
 und per Script und Timer nach 20 Sekunden wieder zurückgesetzt. Somit kann auf diese Variable auch getriggert werden.
+Der Speicherplatz enthält den letzten erkannten Speicherplatz eines Fingerabdrucks.
 
 
 ###Anschluss des Fingerprintreaders GT511C3 an einen Raspberry-PI 2:
