@@ -15,12 +15,14 @@ Fingerreader GT511C3
 			//
 			$this->RegisterVariableString ("Firmwaredatum", "Firmwaredatum");
 			$this->RegisterVariableBoolean ("Identify","Identify","","-10" );
-			$this->RegisterVariableBoolean ("LED","LED","~Switch","-5" );			
+			$Speicherplatz_ID=$this->RegisterVariableInteger ("Speicherplatz","Speicherplatz","","-5" );
+			//IPS_SetParent(IPS_GetVariableIDByName(IPS_GetVariableIDByName("Speicherplatz",$this->InstanceID),IPS_GetVariableIDByName("Identify",$this->InstanceID)),IPS_GetVariableIDByName("Identify",$this->InstanceID));
+			$this->RegisterVariableBoolean ("LED","LED","~Switch","-5" );		
 			//erst nach Variablenerstellung				
 			//
-			$this->CreateScriptResetIdentify();
 			$this->CreateScriptLED_Ein();
 			$this->CreateScriptLED_Aus();
+			$this->CreateScriptResetIdentify();
 		}
 		
 		public function Destroy()	{
@@ -276,7 +278,7 @@ Fingerreader GT511C3
 			if ($enroll_quality==true) {
 				$Parameter=array("\x01","\x00","\x00","\x00");                   //Parameter =0: not best image, but fast Nonzero:best image, but slow
 				if ($debug) IPS_LogMessage($Name,"CaptureFinger gestartet: quality high - but slow");  
-				$time=1100;
+				$time=1500;
 			}
 			else {
 				$Parameter=array("\x00","\x00","\x00","\x00");                   //Parameter =0: not best image, but fast  Nonzero:best image, but slow
@@ -367,7 +369,7 @@ Fingerreader GT511C3
 			}
 			$Command=array("\x01","\x00");                          
 			$sendestring=$this->buildstring ($Parameter,$Command);
-			$erg=$this->senden ($sendestring,"Open",4,1200,"ACK");
+			$erg=$this->senden ($sendestring,"Open",4,1500,"ACK");
 			if ($debug) IPS_LogMessage($Name,"Open beendet");			
 			return $erg;
 		}
@@ -469,6 +471,9 @@ Fingerreader GT511C3
 			else {
 				if ($Befehl == "OnlyIdentify") {
 					IPS_LogMessage($Name,"Identify erfolgreich - Fingerabdruck erkannt - Speicherplatz: ".(hexdec($word1)-48));  //48 nichts in Doku enthalten
+					$Identify_ID=IPS_GetVariableIDByName("Identify",$this->InstanceID);
+					$Speicherplatz_ID=IPS_GetVariableIDByName("Speicherplatz",$Identify_ID); 	
+					SetValueInteger($Speicherplatz_ID,(hexdec($word1)-48));
 				}
 				elseif ($Befehl == "GetEnrollCount") {
 					IPS_LogMessage($Name,"GetEnrollCount erfolgreich - belegte Speicherplätze: ".hexdec($word1));
@@ -522,7 +527,8 @@ Fingerreader GT511C3
 			$Befehl=$this->GetBuffer("Command");
 			if ($debug) IPS_LogMessage($Name,"Senden: ".$this->ascii2hex($sendestring));
 			while ($Antwort!=$answer) {
-				SPRT_SendText($COM_ID, $sendestring);  //über seriellen Port direkt
+				//SPRT_SendText($COM_ID, $sendestring);  //über seriellen Port direkt //sollte nicht verwandt werden (Probleme beim Test unter Windows)
+				$this->SendDataToParent(json_encode(Array("DataID" => "{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}", "Buffer" => utf8_encode($sendestring))));
 				IPS_Sleep($delay);
 				$Antwort=$this->GetBuffer("Answer");
 				//
@@ -530,6 +536,8 @@ Fingerreader GT511C3
 				If ($Antwort!=$answer) 	{
 					if ($debug) IPS_LogMessage($Name,"$functionname- Fehler - kein: $answer erhalten - Starte COM-SS neu!");
 					IPS_SetProperty($COM_ID,"Open",true);			//serielle Schnittstelle verschluckt sich - IPS-Problem?
+					IPS_Sleep($delay);
+					//Nachfolgende Zeile Probleme unter Windows ??? 
 					IPS_ApplyChanges($COM_ID);						//serielle Schnittstelle verschluckt sich - IPS-Problem?
 					$ErrorCount++;
 					if ($debug) IPS_LogMessage($Name,"$functionname- Fehler - kein: $answer erhalten");
@@ -544,8 +552,7 @@ Fingerreader GT511C3
 				}
 			}
 			return;
-		}
-		
+		}		
 		protected function OnlyIdentify () {							//only Identify Command - for real identify needs Capture
 			$debug=$this->ReadPropertyBoolean("logmax");				
 			$Name=IPS_GetName($this->InstanceID);						//1:N Identification of the capture fingerprint image with the database
@@ -588,7 +595,7 @@ Fingerreader GT511C3
 			$Command=array("\x23","\x00");										//
 			$Parameter=array("\x00","\x00","\x00","\x00");
 			$sendestring=$this->buildstring ($Parameter,$Command);
-			$erg=$this->senden ($sendestring,"Enroll1",4,1100,"ACK");
+			$erg=$this->senden ($sendestring,"Enroll1",4,1500,"ACK");
 			if ($debug) IPS_LogMessage($Name,"Enroll1 beendet");	
 			return $erg;
 		}	
@@ -602,7 +609,7 @@ Fingerreader GT511C3
 			$Command=array("\x24","\x00");										//
 			$Parameter=array("\x00","\x00","\x00","\x00");
 			$sendestring=$this->buildstring ($Parameter,$Command);
-			$erg=$this->senden ($sendestring,"Enroll2",4,1100,"ACK");
+			$erg=$this->senden ($sendestring,"Enroll2",4,1500,"ACK");
 			if ($debug) IPS_LogMessage($Name,"Enroll2 beendet");	
 			return $erg;
 		}	
@@ -616,7 +623,7 @@ Fingerreader GT511C3
 			$Command=array("\x25","\x00");										//
 			$Parameter=array("\x00","\x00","\x00","\x00");
 			$sendestring=$this->buildstring ($Parameter,$Command);
-			$erg=$this->senden ($sendestring,"Enroll3",4,1100,"ACK");
+			$erg=$this->senden ($sendestring,"Enroll3",4,1500,"ACK");
 			if ($debug) IPS_LogMessage($Name,"Enroll3 beendet");	
 			return $erg;
 		}				
@@ -690,7 +697,7 @@ Fingerreader GT511C3
 		  return $hex;
 		}
 
-		protected function hexToStr($hex){
+		protected function hexToStr($hex){ 
 			$string='';
 			//if ($debug) echo "\nLänge=".strlen($hex)."  $hex ";
 			if (strlen($hex)==1) {
@@ -703,7 +710,12 @@ Fingerreader GT511C3
 		}
 		
 		protected function CreateScriptResetIdentify ()	{				//erstellt Script und Timer zum Rücksetzen der Indetify-Variable
-			$scriptid = $this->RegisterScript("ResetIdentify", "ResetIdentify", 
+			$Identify_ID=IPS_GetVariableIDByName("Identify",$this->InstanceID); 
+			if (IPS_GetVariableIDByName("Speicherplatz",$this->InstanceID)!=false) {
+				@IPS_SetParent(IPS_GetVariableIDByName("Speicherplatz",$this->InstanceID),$Identify_ID);
+			}	
+			if (@IPS_GetScriptIDByName("ResetIdentify",$Identify_ID)!=false) return;
+			$scriptid = $this->RegisterScript("ResetIdentify", "ResetIdentify",  
 			'<?
 $Par_ID=IPS_GetParent($_IPS[\'SELF\']);
 $Name=IPS_GetName(IPS_GetParent($Par_ID));
@@ -712,10 +724,11 @@ if($_IPS[\'SENDER\'] == "TimerEvent") {
 	IPS_LogMessage($Name,"IDENTIFY über Timer wieder ausgeschaltet (".$_IPS[\'SELF\'].")");
 	IPS_SetScriptTimer($_IPS[\'SELF\'],0);
 }	
-else IPS_SetScriptTimer($_IPS[\'SELF\'],20);
+elseif (GetValueBoolean($Par_ID)==true) {
+	IPS_SetScriptTimer($_IPS[\'SELF\'],20);
+}	
 ?>'
-			, -3);	
-			$Identify_ID=IPS_GetVariableIDByName("Identify",$this->InstanceID); 
+			, -3);		
 			IPS_LogMessage("Fingerprintreader","Identify: $Identify_ID");
 			@IPS_SetParent($scriptid,$Identify_ID);
 			IPS_SetHidden($scriptid,true);	
@@ -727,6 +740,8 @@ else IPS_SetScriptTimer($_IPS[\'SELF\'],20);
 		}
 	
 		protected function CreateScriptLED_Ein ()	{					//erstellt Script für LED ein (zum Test für Module-Beginner)
+			$LED_ID=IPS_GetVariableIDByName("LED",$this->InstanceID); 
+			if (@IPS_GetScriptIDByName("einschalten",$LED_ID)!=false) return;
 			$scriptid = $this->RegisterScript("einschalten", "einschalten", 
 			'<?
 $Par_ID=IPS_GetParent($_IPS[\'SELF\']);
@@ -743,6 +758,8 @@ IPS_LogMessage($Name,"$Name eingeschaltet (".$_IPS[\'SELF\'].")");
 		}
 			
 		protected function CreateScriptLED_Aus ()	{					//erstellt Script für LED ein (zum Test für Module-Beginner)
+			$LED_ID=IPS_GetVariableIDByName("LED",$this->InstanceID); 
+			if (@IPS_GetScriptIDByName("ausschalten",$LED_ID)!=false) return;		
 			$scriptid = $this->RegisterScript("ausschalten", "ausschalten", 
 			'<?
 $Par_ID=IPS_GetParent($_IPS[\'SELF\']);

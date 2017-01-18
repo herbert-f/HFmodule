@@ -36,7 +36,8 @@ Der Fingerprintreader GT-511C3 ist online erhältlich, ich habe diesen hier bezo
 	
 ####FPgt511_Identify($ID_Instanz);  //(LED muss ein sein)
 	Überprüfung ob Fingerabdruck in Datenbank
-	Liefert TRUE bei Erfolg	
+	Liefert TRUE bei Erfolg
+	Speicherung der Nummer des Speicherplatzes in separater Variable (somit Identifizierung der Person möglich)	
 
 ####FPgt511_Enrollment($ID_Instanz);  //(LED muss ein sein)
 	Anlernen (Registrieren) eines Fingerabdrucks (dauert ca. 45sec)
