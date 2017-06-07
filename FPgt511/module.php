@@ -3,7 +3,7 @@
 Fingerreader GT511C3
 ***************************************************************/
 
-	class FingerprintReaderGT511 extends IPSModule	{
+	class FingerprintReaderGT511 extends IPSModule	{ 
 		public function Create() {
 			//Never delete this line!
 			parent::Create();
