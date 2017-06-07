@@ -3,7 +3,7 @@
 Fingerreader GT511C3
 ***************************************************************/
 
-	class FingerprintReaderGT511 extends IPSModule	{ 
+	class FingerprintReaderGT511 extends IPSModule	{
 		public function Create() {
 			//Never delete this line!
 			parent::Create();
@@ -752,8 +752,10 @@ elseif (GetValueBoolean($Par_ID)==true) {
 $Par_ID=IPS_GetParent($_IPS[\'SELF\']);
 $Name=IPS_GetName($Par_ID);
 $Instanz_ID=IPS_GetParent($Par_ID);
-FPgt511_LEDein($Instanz_ID);
-IPS_LogMessage($Name,"$Name eingeschaltet (".$_IPS[\'SELF\'].")");
+$erg=FPgt511_LEDein($Instanz_ID);
+if ($erg) IPS_LogMessage($Name,"$Name erfolgreich eingeschaltet (".$_IPS['SELF'].")");
+else IPS_LogMessage($Name,"$Name nicht erfolgreich eingeschaltet (".$_IPS['SELF'].")");
+// 
 //
 ?>'
 			, -8);	
@@ -770,8 +772,10 @@ IPS_LogMessage($Name,"$Name eingeschaltet (".$_IPS[\'SELF\'].")");
 $Par_ID=IPS_GetParent($_IPS[\'SELF\']);
 $Name=IPS_GetName($Par_ID);
 $Instanz_ID=IPS_GetParent($Par_ID);
-FPgt511_LEDaus($Instanz_ID);
-IPS_LogMessage($Name,"$Name ausgeschaltet (".$_IPS[\'SELF\'].")");
+$erg=FPgt511_LEDaus($Instanz_ID);
+if ($erg) IPS_LogMessage($Name,"$Name erfolgreich ausgeschaltet (".$_IPS['SELF'].")");
+else IPS_LogMessage($Name,"$Name nicht erfolgreich ausgeschaltet (".$_IPS['SELF'].")");
+IPS_SetScriptTimer ($_IPS[\'SELF\'],0);
 //
 ?>'
 			, -4);	
