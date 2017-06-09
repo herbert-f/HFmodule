@@ -360,7 +360,7 @@ Fingerreader GT511C3
 			$sendestring=$this->buildstring ($Parameter,$Command);
 			$this->senden ($sendestring,"IsFingerPress",3,600,"ACK");
 			$response=$this->getBuffer("Response");
-			if ($debug) IPS_LogMessage($Name,"IsFingerPress beendet: $respone"); 
+			if ($debug) IPS_LogMessage($Name,"IsFingerPress beendet: $response"); 
 			if ($response=="true") $erg=true; 
 			else $erg=false;
 			return ($erg);													//Auswertung über ResponseParameterAuswertung 
