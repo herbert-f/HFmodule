@@ -198,7 +198,7 @@ Fingerreader GT511C3
 			$Name=IPS_GetName($this->InstanceID);
 			if ($debug) IPS_LogMessage($Name,"LEDein gestartet");
 			$erg=$this->SetLED(true);
-			if ($debug) IPS_LogMessage($Name,"LEDein beendet");
+			//if ($debug) IPS_LogMessage($Name,"LEDein beendet");
 			return ($erg);			
         }
 
@@ -207,7 +207,7 @@ Fingerreader GT511C3
 			$Name=IPS_GetName($this->InstanceID);
 			if ($debug) IPS_LogMessage($Name,"LEDaus gestartet");
 			$erg=$this->SetLED(false);
-			if ($debug) IPS_LogMessage($Name,"LEDaus beendet");
+			//if ($debug) IPS_LogMessage($Name,"LEDaus beendet");
 			return ($erg);
         }
 
@@ -320,7 +320,8 @@ Fingerreader GT511C3
 			$Command=array("\x26","\x00");										//Response = Ack: Parameter = 0: finger is pressed Parameter = nonzero: finger is not pressed
 			$Parameter=array("\x01","\x00","\x00","\x00");                      //This command is used while enrollment, the host waits to take off the finger per enrollment stage
 			$sendestring=$this->buildstring ($Parameter,$Command);
-			$erg=$this->senden ($sendestring,"IsFingerPress",3,600,"ACK");
+			$this->senden ($sendestring,"IsFingerPress",3,600,"ACK");
+			$erg=$this->getBuffer("Response");
 			if ($debug) IPS_LogMessage($Name,"IsFingerPress beendet: $erg"); 			
 			return ($erg);													//Auswertung über ResponseParameterAuswertung 
 		}
