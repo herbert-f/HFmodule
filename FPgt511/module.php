@@ -320,7 +320,7 @@ Fingerreader GT511C3
 			$sendestring=$this->buildstring ($Parameter,$Command);
 			$erg=$this->senden ($sendestring,"IsFingerPress",3,600,"ACK");
 			if ($debug) IPS_LogMessage($Name,"IsFingerPress beendet"); 			
-			//return ($erg);													//Auswertung über ResponseParameterAuswertung 
+			return ();													//Auswertung über ResponseParameterAuswertung 
 		}
 
 		public function DeleteAll () {						  			//Delete all fingerprints from the database
