@@ -536,15 +536,16 @@ Fingerreader GT511C3
 				//
 				if ($debug) IPS_LogMessage($Name,"Senden: Letzter Befehl: $Befehl, Letzte Antwort: ".$this->GetBuffer("Answer"));
 				If ($Antwort!=$answer) 	{
-					if ($debug) IPS_LogMessage($Name,"$functionname- Fehler - kein: $answer erhalten - Starte COM-SS neu!");
-					IPS_SetProperty($COM_ID,"Open",true);			//serielle Schnittstelle verschluckt sich - IPS-Problem?
+					if ($debug) IPS_LogMessage($Name,"$functionname- Fehler - kein: $answer erhalten - sondern dies: $Antwort - Starte COM-SS neu!");
 					IPS_Sleep($delay);
-					//Nachfolgende Zeile Probleme unter Windows ??? 
-					IPS_ApplyChanges($COM_ID);						//serielle Schnittstelle verschluckt sich - IPS-Problem?
 					$ErrorCount++;
 					if ($debug) IPS_LogMessage($Name,"$functionname- Fehler - kein: $answer erhalten");
 					If ($ErrorCount>$replys) {    //muss mind. 1 sein
 						IPS_LogMessage($Name,"Senden: $functionname - Abbruch kein: $answer erhalten (".$_IPS['SELF'].")");
+						//serielle Schnittstelle verschluckt sich - IPS-Problem?
+						IPS_SetProperty($COM_ID,"Open",true);			//serielle Schnittstelle verschluckt sich - IPS-Problem?						
+						//Nachfolgende Zeile Probleme unter Windows ??? 
+						IPS_ApplyChanges($COM_ID);	
 						return false;
 					}
 				}
