@@ -222,15 +222,17 @@ Fingerreader GT511C3
 			if ($status==true) {
 				$Parameter=array("\x01","\x00","\x00","\x00");
 				if ($debug) IPS_LogMessage($Name,"SetLED einschalten");
-				SetValueBoolean($LED_ID,true);
 			}
 			else  {
 				$Parameter=array("\x00","\x00","\x00","\x00");
 				if ($debug) IPS_LogMessage($Name,"SetLED ausschalten");
-				SetValueBoolean($LED_ID,false);
 			}
 			$sendestring=$this->buildstring ($Parameter,$Command);
 			$erg=$this->senden ($sendestring,"SetLED",4,400,"ACK");
+			if ($erg==true) {
+				if ($status==true) SetValueBoolean($LED_ID,true);
+				else SetValueBoolean($LED_ID,false);
+			} 
 			$this->setBuffer("Answer","END SetLED");	
 			return ($erg);
 		}		
@@ -467,6 +469,7 @@ Fingerreader GT511C3
 				) ;
 				$ErrorText=$error_codes[$word1];
 				if ($debug) IPS_LogMessage($Name,"ResponseAuswertung: NOACK: $ErrorText $word1");
+				$this->SetBuffer("Response",$ErrorText);
 			}
 			else {
 				if ($Befehl == "OnlyIdentify") {
@@ -474,6 +477,7 @@ Fingerreader GT511C3
 					$Identify_ID=IPS_GetVariableIDByName("Identify",$this->InstanceID);
 					$Speicherplatz_ID=IPS_GetVariableIDByName("Speicherplatz",$Identify_ID); 
 					SetValueBoolean($Identify_ID,true);
+					$this->SetBuffer("Response","true");
 					if ($debug) IPS_LogMessage($Name,"Setze Variable Identify ($Identify_ID) auf true");					
 					SetValueInteger($Speicherplatz_ID,(hexdec($word1)-48));
 				}
@@ -487,6 +491,7 @@ Fingerreader GT511C3
 						$this->SetBuffer("Answer","ACK");			//NOACK für IsFingerPress okay - Finger not pressed
 					}
 					if ($word1 == '0000') {
+						$this->SetBuffer("Response","true");
 						IPS_LogMessage($Name,"IsFingerPress erfolgreich - Finger pressed");
 					}					
 				}
