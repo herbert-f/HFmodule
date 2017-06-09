@@ -289,7 +289,10 @@ Fingerreader GT511C3
 			}
 			$sendestring=$this->buildstring ($Parameter,$Command);
 			$erg=$this->senden ($sendestring,"CaptureFinger",3,$time,"ACK");
-			if ($debug) IPS_LogMessage($Name,"CaptureFinger beendet"); 
+			if ($debug) {
+				if($erg==true) IPS_LogMessage($Name,"CaptureFinger erfolgreich beendet");
+				else IPS_LogMessage($Name,"CaptureFinger NICHT erfolgreich beendet");				
+			}	
 			return $erg;
 		}		
 
@@ -305,7 +308,9 @@ Fingerreader GT511C3
 				IPS_LogMessage($Name,"Identify: CaptureFinger erfolgreich - Step 1 (von 2)"); 
 				$erg=$this-> OnlyIdentify();
 			}
-			else return (false);
+			else {
+				return (false);
+			}	
 			if ($debug) IPS_LogMessage($Name,"Identify beendet"); 
 			return $erg;
 		}
@@ -477,10 +482,12 @@ Fingerreader GT511C3
 					IPS_LogMessage($Name,"Identify erfolgreich - Fingerabdruck erkannt - Speicherplatz: ".(hexdec($word1)-48));  //48 nichts in Doku enthalten
 					$Identify_ID=IPS_GetVariableIDByName("Identify",$this->InstanceID);
 					$Speicherplatz_ID=IPS_GetVariableIDByName("Speicherplatz",$Identify_ID); 
-					SetValueBoolean($Identify_ID,true);
-					$this->SetBuffer("Response","true");
-					if ($debug) IPS_LogMessage($Name,"Setze Variable Identify ($Identify_ID) auf true");					
-					SetValueInteger($Speicherplatz_ID,(hexdec($word1)-48));
+					If (($Speicherplatz_ID>0) && ($Speicherplatz_ID<99)) {}
+						$this->SetBuffer("Response","true");
+						if ($debug) IPS_LogMessage($Name,"Setze Variable Identify ($Identify_ID) auf true");					
+						SetValueInteger($Speicherplatz_ID,(hexdec($word1)-48));
+					}
+					else $this->SetBuffer("Response","false");					
 				}
 				elseif ($Befehl == "GetEnrollCount") {
 					IPS_LogMessage($Name,"GetEnrollCount erfolgreich - belegte Speicherplätze: ".hexdec($word1));
@@ -490,6 +497,7 @@ Fingerreader GT511C3
 					if ($word1 == '1012') {
 						IPS_LogMessage($Name,"IsFingerPress erfolgreich - Finger not pressed");
 						$this->SetBuffer("Answer","ACK");			//NOACK für IsFingerPress okay - Finger not pressed
+						//$this->SetBuffer("Response","true");		//nicht erforderlich da Errorcode
 					}
 					if ($word1 == '0000') {
 						$this->SetBuffer("Response","true");
@@ -572,6 +580,8 @@ Fingerreader GT511C3
 			$Parameter=array("\x00","\x00","\x00","\x00");
 			$sendestring=$this->buildstring ($Parameter,$Command);
 			$erg=$this->senden ($sendestring,"OnlyIdentify",4,500,"ACK");
+			if ($erg==false) return $erg;
+			$erg=$this->getBuffer("Response");
 			if ($erg) {
 				$Identify_ID=IPS_GetVariableIDByName("Identify",$this->InstanceID); 
 				SetValueBoolean($Identify_ID,true);
