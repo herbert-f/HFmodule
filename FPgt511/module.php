@@ -535,8 +535,8 @@ Fingerreader GT511C3
 				$Antwort=$this->GetBuffer("Answer");
 				//
 				if ($debug) IPS_LogMessage($Name,"Senden: Letzter Befehl: $Befehl, Letzte Antwort: ".$this->GetBuffer("Answer"));
-				If (($Antwort!=$answer) && ($Antwort!="NOACK")) 	{
-					if ($debug) IPS_LogMessage($Name,"$functionname- Fehler - kein: $answer oder NOACK erhalten - sondern dies: $Antwort - Starte COM-SS neu!");
+				If (($Antwort!=$answer) && ($Antwort!="NOACK") && ($Antwort!="Begin")) 	{
+					if ($debug) IPS_LogMessage($Name,"$functionname- Fehler unbekannte Antwort: $Antwort - Starte COM-SS neu!");
 					IPS_Sleep($delay);
 					$ErrorCount++;
 					if ($debug) IPS_LogMessage($Name,"$functionname- Fehler - kein: $answer erhalten");
