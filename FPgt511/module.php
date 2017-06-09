@@ -319,8 +319,8 @@ Fingerreader GT511C3
 			$Parameter=array("\x01","\x00","\x00","\x00");                      //This command is used while enrollment, the host waits to take off the finger per enrollment stage
 			$sendestring=$this->buildstring ($Parameter,$Command);
 			$erg=$this->senden ($sendestring,"IsFingerPress",3,600,"ACK");
-			if ($debug) IPS_LogMessage($Name,"IsFingerPress beendet"); 			
-			return ();													//Auswertung über ResponseParameterAuswertung 
+			if ($debug) IPS_LogMessage($Name,"IsFingerPress beendet: $erg"); 			
+			return ($erg);													//Auswertung über ResponseParameterAuswertung 
 		}
 
 		public function DeleteAll () {						  			//Delete all fingerprints from the database
