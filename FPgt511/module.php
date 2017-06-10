@@ -522,11 +522,11 @@ Fingerreader GT511C3
 				if ($Befehl == "OnlyIdentify") {
 					IPS_LogMessage($Name,"Identify erfolgreich - Fingerabdruck erkannt - Speicherplatz: ".(hexdec($word1)-48));  //48 nichts in Doku enthalten
 					$Identify_ID=IPS_GetVariableIDByName("Identify",$this->InstanceID);
-					$Speicherplatz_ID=IPS_GetVariableIDByName("Speicherplatz",$Identify_ID); 
+					$Speicherplatz_ID=IPS_GetVariableIDByName("Speicherplatz",$Identify_ID);
+					SetValueInteger($Speicherplatz_ID,(hexdec($word1)-48));					
 					If ((GetValue($Speicherplatz_ID)>0) && (GetValue($Speicherplatz_ID)<99)) {
 						$this->SetBuffer("Response","true");
 						if ($debug) IPS_LogMessage($Name,"Setze Variable Identify ($Identify_ID) auf true");					
-						SetValueInteger($Speicherplatz_ID,(hexdec($word1)-48));
 					}
 					else $this->SetBuffer("Response","false");					
 				}
