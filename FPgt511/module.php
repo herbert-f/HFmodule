@@ -560,7 +560,7 @@ Fingerreader GT511C3
 				elseif ($Befehl == "DeleteAll") {
 					IPS_LogMessage($Name,"DeleteAll erfolgreich - : ".hexdec($word1));
 				}
-				elseif (($Befehl == "Enroll1") || ($Befehl == "Enroll2") || ($Befehl == "Enroll3")) {
+				elseif (($Befehl == "Enroll1") || ($Befehl == "Enroll2") || ($Befehl == "Enroll3")) { 
 					$Speicherplatz=(int) hexdec($word1);
 					if ($Speicherplatz>0 && $Speicherplatz<200) {
 						IPS_LogMessage($Name,"Fingerprint schon eingespeichert - : ".hexdec($word1));
@@ -572,6 +572,8 @@ Fingerreader GT511C3
 		
 		protected function senden (string $sendestring,string $functionname,int $replys,int $delay,string $answer) {
 			$debug=$this->ReadPropertyBoolean("logmax");
+			$this->setBuffer("Response","false");
+			$this->setBuffer("Answer","");
 			$Name=IPS_GetName($this->InstanceID);
 			$ErrorCount=0;
 			$COM_ID = $this -> GetParent();
@@ -580,7 +582,6 @@ Fingerreader GT511C3
 				IPS_LogMessage($Name,"Übergeordnete Instanz (SerialPort) muss verbunden sein!");
 				return false;
 			}	
-			$Antwort=$this->GetBuffer("Answer");
 			$Befehl=$this->GetBuffer("Command");
 			if ($debug) IPS_LogMessage($Name,"Senden: ".$this->ascii2hex($sendestring));
 			while (($Antwort!=$answer) || ($Antwort!="NOACK") || ($Antwort!="Begin")) {
