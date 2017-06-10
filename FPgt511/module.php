@@ -531,8 +531,7 @@ Fingerreader GT511C3
 				}
 			}
 			elseif ($Antwort == "ACK") {
-
-				elseif ($Befehl == "GetEnrollCount") {
+				if ($Befehl == "GetEnrollCount") { 
 					IPS_LogMessage($Name,"GetEnrollCount erfolgreich - belegte Speicherplätze: ".hexdec($word1));
 					$this->SetBuffer("EnrollCount",hexdec($word1));
 				}
