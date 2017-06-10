@@ -582,6 +582,7 @@ Fingerreader GT511C3
 				IPS_LogMessage($Name,"Übergeordnete Instanz (SerialPort) muss verbunden sein!");
 				return false;
 			}	
+			$Antwort="";
 			$Befehl=$this->GetBuffer("Command");
 			if ($debug) IPS_LogMessage($Name,"Senden: ".$this->ascii2hex($sendestring));
 			while (($Antwort!=$answer) || ($Antwort!="NOACK") || ($Antwort!="Begin")) {
