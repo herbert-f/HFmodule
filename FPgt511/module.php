@@ -250,7 +250,7 @@ Fingerreader GT511C3
 			$Parameter=array("\x00","\x00","\x00","\x00");
 			$sendestring=$this->buildstring ($Parameter,$Command);
 			$this->senden ($sendestring,"GetEnrollCount",3,600,"ACK");
-			if ($this->getBuffer("ANSWER") == "NOACK") {
+			if ($this->getBuffer("ANSWER") === "NOACK") {
 				$erg = "Fehler bei Abruf - erneut versuchen!";
 			}
 			else $erg=$this->getBuffer("EnrollCount");
@@ -380,7 +380,7 @@ Fingerreader GT511C3
 			$Parameter=array("\x00","\x00","\x00","\x00");
 			$sendestring=$this->buildstring ($Parameter,$Command);
 			$erg=$this->senden ($sendestring,"DeleteAll",0,600,"ACK");
-			If ($erg==true) IPS_LogMessage($Name,"Letzter Befehl: ".$this->getBuffer("Command").", Alle Speicherplätze gelöscht"); 
+			If ($erg===true) IPS_LogMessage($Name,"Letzter Befehl: ".$this->getBuffer("Command").", Alle Speicherplätze gelöscht"); 
 			if ($debug) IPS_LogMessage($Name,"DeleteAll beendet");
 			return $erg;
 		}
@@ -397,7 +397,7 @@ Fingerreader GT511C3
 			$Parameter=array($Speicherplatzh,"\x00","\x00","\x00");
 			$sendestring=$this->buildstring ($Parameter,$Command);
 			$erg=$this->senden ($sendestring,"DeleteID",2,600,"ACK");
-			If ($erg==true) IPS_LogMessage($Name,"Letzter Befehl: ".$this->getBuffer("Command").", Speicherplatz: $Speicherplatz gelöscht"); 
+			If ($erg===true) IPS_LogMessage($Name,"Letzter Befehl: ".$this->getBuffer("Command").", Speicherplatz: $Speicherplatz gelöscht"); 
 			if ($debug) IPS_LogMessage($Name,"DeleteID $Speicherplatz beendet");
 			return $erg;
 		}
@@ -408,7 +408,7 @@ Fingerreader GT511C3
 			$Name=IPS_GetName($this->InstanceID);				
 			$this->setBuffer("Command","Open");
 			$this->setBuffer("Answer","Begin");
-			if ($info==true) { 
+			if ($info===true) { 
 				$Parameter=array("\x01","\x00","\x00","\x00");			//0: not to get extra info Nonzero: to get extra info4
 				if ($debug) IPS_LogMessage($Name,"Open gestartet - Infos angefordert"); 
 			}
@@ -483,7 +483,7 @@ Fingerreader GT511C3
 		0		0x55		BYTE	Response start code1
 		1		0xAA		BYTE	Response start code2
 		2		Device ID   WORD	Device ID: default is 0x0001, always fixed
-		4       Parameter	DWORD	Response == 0x30: (ACK) Output Parameter Response == 0x31: (NACK) Error code
+		4       Parameter	DWORD	Response === 0x30: (ACK) Output Parameter Response === 0x31: (NACK) Error code
 		8     	Response	WORD	0x30: Acknowledge (ACK). 0x31: Non-acknowledge (NACK).
 		10   	Check Sum	WORD	Check Sum (byte addition) OFFSET[0]+…+OFFSET[9]=Check Sum
 		*/
@@ -494,7 +494,7 @@ Fingerreader GT511C3
 			$Antwort=$this->getBuffer("Answer");
 			$Befehl=$this->getBuffer("Command");
 			if ($debug) IPS_LogMessage($Name,"ResponseAuswertung: Letzter Befehl: $Befehl, Letzte Antwort: $Antwort");
-			if ($Antwort == "NOACK") {
+			if ($Antwort === "NOACK") {
 				$error_codes = array (
 										'0000' =>  	'NO_ERROR',    					//Default value. no error
 										'1001' =>  	'NACK_TIMEOUT',      			//Obsolete, capture timeout
@@ -520,17 +520,17 @@ Fingerreader GT511C3
 				$ErrorText=$error_codes[$word1];
 				if ($debug) IPS_LogMessage($Name,"ResponseAuswertung: NOACK: $ErrorText $word1");
 				//$this->SetBuffer("Response",$ErrorText);
-				if ($Befehl == "OnlyIdentify") {
+				if ($Befehl === "OnlyIdentify") {
 					IPS_LogMessage($Name,"NOACK: - Fingerabdruck nicht erkannt - Speicherplatz: ".(hexdec($word1)-48));  //48 nichts in Doku enthalten
 					$this->SetBuffer("Identify",false);					
 				}
 			}
-			elseif ($Antwort == "ACK") {
-				if ($Befehl == "GetEnrollCount") { 
+			elseif ($Antwort === "ACK") {
+				if ($Befehl === "GetEnrollCount") { 
 					IPS_LogMessage($Name,"GetEnrollCount erfolgreich - belegte Speicherplätze: ".hexdec($word1));
 					$this->SetBuffer("EnrollCount",hexdec($word1));
 				}
-				elseif ($Befehl == "OnlyIdentify") {
+				elseif ($Befehl === "OnlyIdentify") {
 					IPS_LogMessage($Name,"ACK: - Fingerabdruck erkannt - Speicherplatz: ".(hexdec($word1)-48));  //48 nichts in Doku enthalten
 					$Identify_ID=IPS_GetVariableIDByName("Identify",$this->InstanceID);
 					$Speicherplatz_ID=IPS_GetVariableIDByName("Speicherplatz",$Identify_ID);
@@ -541,19 +541,19 @@ Fingerreader GT511C3
 					}
 					else $this->SetBuffer("Identify",false);					
 				}							
-				elseif ($Befehl == "IsFingerPress") {
-					if ($word1 == '1012') {
+				elseif ($Befehl === "IsFingerPress") {
+					if ($word1 === '1012') {
 						IPS_LogMessage($Name,"IsFingerPress erfolgreich - Finger not pressed");
 						//$this->SetBuffer("Answer","ACK");			//NOACK für IsFingerPress okay - Finger not pressed
 						$this->SetBuffer("FingerPressBuff",false);		//
 					}
-					if ($word1 == '0000') {
+					if ($word1 === '0000') {
 						$this->SetBuffer("FingerPressBuff",true);
 						IPS_LogMessage($Name,"IsFingerPress erfolgreich - Finger pressed");
 					}					
 				}
-				elseif ($Befehl == "CheckEnrolled") {
-					if ($word1 == '1004') {
+				elseif ($Befehl === "CheckEnrolled") {
+					if ($word1 === '1004') {
 						IPS_LogMessage($Name,"CheckEnrolled erfolgreich - ID ist noch frei");
 						$this->SetBuffer("Answer","ACK");			//NOACK für Checkerolled okay - ID noch frei
 					}
@@ -561,13 +561,13 @@ Fingerreader GT511C3
 						IPS_LogMessage($Name,"CheckEnrolled Fehler - $word1");
 					}					
 				}
-				elseif ($Befehl == "DeleteID") {
+				elseif ($Befehl === "DeleteID") {
 					IPS_LogMessage($Name,"DeleteID erfolgreich - : ".hexdec($word1));
 				}
-				elseif ($Befehl == "DeleteAll") {
+				elseif ($Befehl === "DeleteAll") {
 					IPS_LogMessage($Name,"DeleteAll erfolgreich - : ".hexdec($word1));
 				}
-				elseif (($Befehl == "Enroll1") || ($Befehl == "Enroll2") || ($Befehl == "Enroll3")) { 
+				elseif (($Befehl === "Enroll1") || ($Befehl === "Enroll2") || ($Befehl === "Enroll3")) { 
 					$Speicherplatz=(int) hexdec($word1);
 					if ($Speicherplatz>0 && $Speicherplatz<200) {
 						IPS_LogMessage($Name,"Fingerprint schon eingespeichert - : ".hexdec($word1));
@@ -628,7 +628,7 @@ Fingerreader GT511C3
 			$Name=IPS_GetName($this->InstanceID);			
 			$this->setBuffer("Command","EnrollStart");
 			$this->setBuffer("Answer","Begin");
-			if ($debug) IPS_LogMessage($Name,"EnrollStart gestartet");        // Command = EnrollStart Parameter = ID(0~199) If ID == -1, then “Enrollment without saving” will be stated.
+			if ($debug) IPS_LogMessage($Name,"EnrollStart gestartet");        // Command = EnrollStart Parameter = ID(0~199) If ID === -1, then “Enrollment without saving” will be stated.
 			$Command=array("\x22","\x00");										//
 			$Parameter=array($Speicherplatz,"\x00","\x00","\x00");
 			$sendestring=$this->buildstring ($Parameter,$Command);
@@ -778,7 +778,7 @@ Fingerreader GT511C3
 			'<?
 $Par_ID=IPS_GetParent($_IPS[\'SELF\']);
 $Name=IPS_GetName(IPS_GetParent($Par_ID));
-if($_IPS[\'SENDER\'] == "TimerEvent") {
+if($_IPS[\'SENDER\'] === "TimerEvent") {
 	SetValueBoolean($Par_ID,false);
 	IPS_LogMessage($Name,"IDENTIFY über Timer wieder ausgeschaltet (".$_IPS[\'SELF\'].")");
 	IPS_SetScriptTimer($_IPS[\'SELF\'],0);
