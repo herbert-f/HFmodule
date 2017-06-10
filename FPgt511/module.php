@@ -352,7 +352,7 @@ Fingerreader GT511C3
 		
 		public function IsFingerPress () {                              //Check if a finger is placed on the sensor
 			$debug=$this->ReadPropertyBoolean("logmax");
-			$this->setBuffer("Response",false);
+			$this->setBuffer("FingerPressBuff",false);
 			$Name=IPS_GetName($this->InstanceID);
 			$this->setBuffer("Command","IsFingerPress");
 			$this->setBuffer("Answer","Begin");
@@ -362,9 +362,9 @@ Fingerreader GT511C3
 			$Parameter=array("\x01","\x00","\x00","\x00");                      //This command is used while enrollment, the host waits to take off the finger per enrollment stage
 			$sendestring=$this->buildstring ($Parameter,$Command);
 			$this->senden ($sendestring,"IsFingerPress",3,600,"ACK");
-			$response=$this->getBuffer("Response");
-			if ($debug) IPS_LogMessage($Name,"IsFingerPress beendet: $response"); 
-			if ($response==true) $erg=true; 
+			$FingerPress=$this->getBuffer("FingerPressBuff");
+			if ($debug) IPS_LogMessage($Name,"IsFingerPress beendet: $FingerPress"); 
+			if ($FingerPress==true) $erg=true; 
 			else $erg=false;
 			return ($erg);													//Auswertung über ResponseParameterAuswertung 
 		}
@@ -544,11 +544,11 @@ Fingerreader GT511C3
 				elseif ($Befehl == "IsFingerPress") {
 					if ($word1 == '1012') {
 						IPS_LogMessage($Name,"IsFingerPress erfolgreich - Finger not pressed");
-						$this->SetBuffer("Answer","ACK");			//NOACK für IsFingerPress okay - Finger not pressed
-						//$this->SetBuffer("Response",true);		//nicht erforderlich da Errorcode
+						//$this->SetBuffer("Answer","ACK");			//NOACK für IsFingerPress okay - Finger not pressed
+						$this->SetBuffer("FingerPressBuff",false);		//
 					}
 					if ($word1 == '0000') {
-						$this->SetBuffer("Response",true);
+						$this->SetBuffer("FingerPressBuff",true);
 						IPS_LogMessage($Name,"IsFingerPress erfolgreich - Finger pressed");
 					}					
 				}
