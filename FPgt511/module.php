@@ -328,6 +328,7 @@ Fingerreader GT511C3
 			$this->setBuffer("Command","OnlyIdentify");
 			$this->setBuffer("Answer","Begin");
 			if ($debug) IPS_LogMessage($Name,"OnlyIdentify gestartet - Setze Speicherplatz auf 0");	
+			$Speicherplatz_ID=IPS_GetVariableIDByName("Speicherplatz",$Identify_ID);
 			SetValueInteger($Speicherplatz_ID,0); 
 			$Command=array("\x51","\x00");									
 			$Parameter=array("\x00","\x00","\x00","\x00");
