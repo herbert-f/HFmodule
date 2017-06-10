@@ -522,14 +522,7 @@ Fingerreader GT511C3
 				//$this->SetBuffer("Response",$ErrorText);
 				if ($Befehl == "OnlyIdentify") {
 					IPS_LogMessage($Name,"NOACK: - Fingerabdruck nicht erkannt - Speicherplatz: ".(hexdec($word1)-48));  //48 nichts in Doku enthalten
-					$Identify_ID=IPS_GetVariableIDByName("Identify",$this->InstanceID);
-					$Speicherplatz_ID=IPS_GetVariableIDByName("Speicherplatz",$Identify_ID);
-					SetValueInteger($Speicherplatz_ID,(hexdec($word1)-48));					
-					If ((GetValue($Speicherplatz_ID)>0) && (GetValue($Speicherplatz_ID)<99)) {
-						$this->SetBuffer("Response","true");
-						if ($debug) IPS_LogMessage($Name,"Setze Variable Identify ($Identify_ID) auf true");					
-					}
-					else $this->SetBuffer("Response","false");					
+					$this->SetBuffer("Response","false");					
 				}
 			}
 			elseif ($Antwort == "ACK") {
@@ -537,6 +530,20 @@ Fingerreader GT511C3
 					IPS_LogMessage($Name,"GetEnrollCount erfolgreich - belegte Speicherplätze: ".hexdec($word1));
 					$this->SetBuffer("EnrollCount",hexdec($word1));
 				}
+				elseif ($Befehl == "OnlyIdentify") {
+					IPS_LogMessage($Name,"ACK: - Fingerabdruck erkannt - Speicherplatz: ".(hexdec($word1)-48));  //48 nichts in Doku enthalten
+					$Identify_ID=IPS_GetVariableIDByName("Identify",$this->InstanceID);
+					$Speicherplatz_ID=IPS_GetVariableIDByName("Speicherplatz",$Identify_ID);
+					SetValueInteger($Speicherplatz_ID,(hexdec($word1)-48));					
+					If ((GetValue($Speicherplatz_ID)>0) && (GetValue($Speicherplatz_ID)<99)) {
+						$this->SetBuffer("Response","true");
+						if ($debug) IPS_LogMessage($Name,"Setze Variable Identify ($Identify_ID) auf true");
+						$Identify_ID=IPS_GetVariableIDByName("Identify",$this->InstanceID); 
+						SetValueBoolean($Identify_ID,true);
+						$this->SetBuffer("Response",true);						
+					}
+					else $this->SetBuffer("Response",false);					
+				}							
 				elseif ($Befehl == "IsFingerPress") {
 					if ($word1 == '1012') {
 						IPS_LogMessage($Name,"IsFingerPress erfolgreich - Finger not pressed");
