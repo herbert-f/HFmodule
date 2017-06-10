@@ -327,7 +327,8 @@ Fingerreader GT511C3
 			$Name=IPS_GetName($this->InstanceID);						//1:N Identification of the capture fingerprint image with the database
 			$this->setBuffer("Command","OnlyIdentify");
 			$this->setBuffer("Answer","Begin");
-			if ($debug) IPS_LogMessage($Name,"OnlyIdentify gestartet");	
+			if ($debug) IPS_LogMessage($Name,"OnlyIdentify gestartet - Setze Speicherplatz auf 0");	
+			SetValueInteger($Speicherplatz_ID,0); 
 			$Command=array("\x51","\x00");									
 			$Parameter=array("\x00","\x00","\x00","\x00");
 			$sendestring=$this->buildstring ($Parameter,$Command);
@@ -516,11 +517,9 @@ Fingerreader GT511C3
 				) ;
 				$ErrorText=$error_codes[$word1];
 				if ($debug) IPS_LogMessage($Name,"ResponseAuswertung: NOACK: $ErrorText $word1");
-				$this->SetBuffer("Response",$ErrorText);
-			}
-			elseif ($Antwort == "ACK") {
+				//$this->SetBuffer("Response",$ErrorText);
 				if ($Befehl == "OnlyIdentify") {
-					IPS_LogMessage($Name,"Identify erfolgreich - Fingerabdruck erkannt - Speicherplatz: ".(hexdec($word1)-48));  //48 nichts in Doku enthalten
+					IPS_LogMessage($Name,"NOACK: - Fingerabdruck nicht erkannt - Speicherplatz: ".(hexdec($word1)-48));  //48 nichts in Doku enthalten
 					$Identify_ID=IPS_GetVariableIDByName("Identify",$this->InstanceID);
 					$Speicherplatz_ID=IPS_GetVariableIDByName("Speicherplatz",$Identify_ID);
 					SetValueInteger($Speicherplatz_ID,(hexdec($word1)-48));					
@@ -530,6 +529,9 @@ Fingerreader GT511C3
 					}
 					else $this->SetBuffer("Response","false");					
 				}
+			}
+			elseif ($Antwort == "ACK") {
+
 				elseif ($Befehl == "GetEnrollCount") {
 					IPS_LogMessage($Name,"GetEnrollCount erfolgreich - belegte Speicherplätze: ".hexdec($word1));
 					$this->SetBuffer("EnrollCount",hexdec($word1));
