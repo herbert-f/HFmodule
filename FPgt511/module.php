@@ -125,7 +125,7 @@ Fingerreader GT511C3
 
 		public function Enrollment() {									//complete Enrollment 
 			$debug=$this->ReadPropertyBoolean("logmax");
-			$this->setBuffer("Response","false");
+			$this->setBuffer("Response",false);
 			$Name=IPS_GetName($this->InstanceID);			
 			$this->setBuffer("Command","EnrollStart");
 			$this->setBuffer("Answer","Begin");
@@ -214,7 +214,7 @@ Fingerreader GT511C3
 
 		public function SetLED(bool $status) {							//Control CMOS LED
 			$debug=$this->ReadPropertyBoolean("logmax");
-			$this->setBuffer("Response","false");
+			$this->setBuffer("Response",false);
 			$Name=IPS_GetName($this->InstanceID);
 			$Instanz_ID = $this->InstanceID;
 			$this->setBuffer("Command","SetLED");
@@ -241,7 +241,7 @@ Fingerreader GT511C3
 		
 		public function GetEnrollCount () {								//Get enrolled fingerprint count
 			$debug=$this->ReadPropertyBoolean("logmax");
-			$this->setBuffer("Response","false");
+			$this->setBuffer("Response",false);
 			$Name=IPS_GetName($this->InstanceID);			
 			$this->setBuffer("Command","GetEnrollCount");
 			$this->setBuffer("Answer","Begin");
@@ -260,7 +260,7 @@ Fingerreader GT511C3
 		
 		public function CheckEnrolled (int $Speicherplatz) {			//Check whether the specified ID is already enrolled
 			$debug=$this->ReadPropertyBoolean("logmax");
-			$this->setBuffer("Response","false");
+			$this->setBuffer("Response",false);
 			$Name=IPS_GetName($this->InstanceID);
 			$this->setBuffer("Command","CheckEnrolled");
 			$this->setBuffer("Answer","Begin");
@@ -277,7 +277,7 @@ Fingerreader GT511C3
 
 		public function CaptureFinger (bool $enroll_quality) {			//Capture a fingerprint image(256x256) from the sensor
 			$debug=$this->ReadPropertyBoolean("logmax");
-			$this->setBuffer("Response","false");
+			$this->setBuffer("Response",false);
 			$Name=IPS_GetName($this->InstanceID);								// Capture a fingerprint image(256x256) from the sensor   
 			$this->setBuffer("Command","CaptureFinger");
 			$this->setBuffer("Answer","Begin");			
@@ -303,7 +303,7 @@ Fingerreader GT511C3
 
 		public function Identify () {									//include CaptureFinger and OnlyIdentify
 			$debug=$this->ReadPropertyBoolean("logmax");
-			$this->setBuffer("Response","false");
+			$this->setBuffer("Response",false);
 			$Name=IPS_GetName($this->InstanceID);
 			$this->setBuffer("Command","Identify");
 			$this->setBuffer("Answer","Begin");
@@ -323,7 +323,8 @@ Fingerreader GT511C3
 
 		protected function OnlyIdentify () { 							//only Identify Command - for real identify needs Capture
 			$debug=$this->ReadPropertyBoolean("logmax");
-			$this->setBuffer("Response","false");
+			$this->setBuffer("Response",false);
+			$this->setBuffer("Identify",false);
 			$Name=IPS_GetName($this->InstanceID);						//1:N Identification of the capture fingerprint image with the database
 			$this->setBuffer("Command","OnlyIdentify");
 			$this->setBuffer("Answer","Begin");
@@ -338,9 +339,8 @@ Fingerreader GT511C3
 			if ($erg==false) return $erg;
 			else {
 				IPS_Sleep(100);											//warte ResponseAuswertung ab
-				$response=$this->getBuffer("Response");
-				if ($response="true") {	
-
+				$identify=$this->getBuffer("Identify");
+				if ($identify=true) {	
 					SetValueBoolean($Identify_ID,true);
 					if ($debug) IPS_LogMessage($Name,"Setze Variable Identify ($Identify_ID) auf true"); 
 					if ($debug) IPS_LogMessage($Name,"OnlyIdentify beendet erg=$erg");
@@ -352,7 +352,7 @@ Fingerreader GT511C3
 		
 		public function IsFingerPress () {                              //Check if a finger is placed on the sensor
 			$debug=$this->ReadPropertyBoolean("logmax");
-			$this->setBuffer("Response","false");
+			$this->setBuffer("Response",false);
 			$Name=IPS_GetName($this->InstanceID);
 			$this->setBuffer("Command","IsFingerPress");
 			$this->setBuffer("Answer","Begin");
@@ -364,14 +364,14 @@ Fingerreader GT511C3
 			$this->senden ($sendestring,"IsFingerPress",3,600,"ACK");
 			$response=$this->getBuffer("Response");
 			if ($debug) IPS_LogMessage($Name,"IsFingerPress beendet: $response"); 
-			if ($response=="true") $erg=true; 
+			if ($response==true) $erg=true; 
 			else $erg=false;
 			return ($erg);													//Auswertung über ResponseParameterAuswertung 
 		}
 
 		public function DeleteAll () {						  			//Delete all fingerprints from the database
 			$debug=$this->ReadPropertyBoolean("logmax");
-			$this->setBuffer("Response","false");
+			$this->setBuffer("Response",false);
 			$Name=IPS_GetName($this->InstanceID);	
 			$this->setBuffer("Command","DeleteAll");
 			$this->setBuffer("Answer","Begin");
@@ -387,7 +387,7 @@ Fingerreader GT511C3
 		
 		public function DeleteID (int $Speicherplatz) {					//Delete the fingerprint with the specified ID
 			$debug=$this->ReadPropertyBoolean("logmax");
-			$this->setBuffer("Response","false");
+			$this->setBuffer("Response",false);
 			$Name=IPS_GetName($this->InstanceID);
 			$this->setBuffer("Command","DeleteID");
 			$this->setBuffer("Answer","Begin");
@@ -404,7 +404,7 @@ Fingerreader GT511C3
 
 		public function  Open (bool $info) {							//Initialization - GetData (Firmware ...)
 			$debug=$this->ReadPropertyBoolean("logmax");
-			$this->setBuffer("Response","false");
+			$this->setBuffer("Response",false);
 			$Name=IPS_GetName($this->InstanceID);				
 			$this->setBuffer("Command","Open");
 			$this->setBuffer("Answer","Begin");
@@ -425,7 +425,7 @@ Fingerreader GT511C3
 		
 		public function  Close () { 									//Termination
 			$debug=$this->ReadPropertyBoolean("logmax");
-			$this->setBuffer("Response","false");
+			$this->setBuffer("Response",false);
 			$Name=IPS_GetName($this->InstanceID);
 			$this->setBuffer("Command","Close");			//funktion sinnlos
 			$this->setBuffer("Answer","Begin");
@@ -440,7 +440,7 @@ Fingerreader GT511C3
 
 		public function GetImage () {									//derzeit nicht implementiert - kein Anwendungsfall
 			$debug=$this->ReadPropertyBoolean("logmax");
-			$this->setBuffer("Response","false");
+			$this->setBuffer("Response",false);
 			$Name=IPS_GetName($this->InstanceID);
 			$this->setBuffer("Command","GetImage");			
 			$this->setBuffer("Answer","Begin");			
@@ -455,7 +455,7 @@ Fingerreader GT511C3
 
 		public function GetRAWImage () {								//derzeit nicht implementiert - kein Anwendungsfall
 			$debug=$this->ReadPropertyBoolean("logmax");
-			$this->setBuffer("Response","false");
+			$this->setBuffer("Response",false);
 			$Name=IPS_GetName($this->InstanceID);
 			$this->setBuffer("Command","GetRAWImage");			
 			$this->setBuffer("Answer","Begin");			
@@ -522,7 +522,7 @@ Fingerreader GT511C3
 				//$this->SetBuffer("Response",$ErrorText);
 				if ($Befehl == "OnlyIdentify") {
 					IPS_LogMessage($Name,"NOACK: - Fingerabdruck nicht erkannt - Speicherplatz: ".(hexdec($word1)-48));  //48 nichts in Doku enthalten
-					$this->SetBuffer("Response","false");					
+					$this->SetBuffer("Identify",false);					
 				}
 			}
 			elseif ($Antwort == "ACK") {
@@ -536,22 +536,22 @@ Fingerreader GT511C3
 					$Speicherplatz_ID=IPS_GetVariableIDByName("Speicherplatz",$Identify_ID);
 					SetValueInteger($Speicherplatz_ID,(hexdec($word1)-48));					
 					If ((GetValue($Speicherplatz_ID)>0) && (GetValue($Speicherplatz_ID)<99)) {
-						$this->SetBuffer("Response","true");
+						$this->SetBuffer("Response",true);
 						if ($debug) IPS_LogMessage($Name,"Setze Variable Identify ($Identify_ID) auf true");
 						$Identify_ID=IPS_GetVariableIDByName("Identify",$this->InstanceID); 
 						SetValueBoolean($Identify_ID,true);
-						$this->SetBuffer("Response",true);						
+						$this->SetBuffer("Identify",true);						
 					}
-					else $this->SetBuffer("Response",false);					
+					else $this->SetBuffer("Identify",false);					
 				}							
 				elseif ($Befehl == "IsFingerPress") {
 					if ($word1 == '1012') {
 						IPS_LogMessage($Name,"IsFingerPress erfolgreich - Finger not pressed");
 						$this->SetBuffer("Answer","ACK");			//NOACK für IsFingerPress okay - Finger not pressed
-						//$this->SetBuffer("Response","true");		//nicht erforderlich da Errorcode
+						//$this->SetBuffer("Response",true);		//nicht erforderlich da Errorcode
 					}
 					if ($word1 == '0000') {
-						$this->SetBuffer("Response","true");
+						$this->SetBuffer("Response",true);
 						IPS_LogMessage($Name,"IsFingerPress erfolgreich - Finger pressed");
 					}					
 				}
@@ -582,7 +582,7 @@ Fingerreader GT511C3
 		
 		protected function senden (string $sendestring,string $functionname,int $replys,int $delay,string $answer) {
 			$debug=$this->ReadPropertyBoolean("logmax");
-			$this->setBuffer("Response","false");
+			$this->setBuffer("Response",false);
 			$this->setBuffer("Answer","");
 			$Name=IPS_GetName($this->InstanceID);
 			$ErrorCount=0;
@@ -627,7 +627,7 @@ Fingerreader GT511C3
 
 		protected function EnrollStart ($Speicherplatz) {				
 			$debug=$this->ReadPropertyBoolean("logmax");
-			$this->setBuffer("Response","false");			
+			$this->setBuffer("Response",false);			
 			$Name=IPS_GetName($this->InstanceID);			
 			$this->setBuffer("Command","EnrollStart");
 			$this->setBuffer("Answer","Begin");
@@ -642,7 +642,7 @@ Fingerreader GT511C3
 
 		protected function Enroll1 () {
 			$debug=$this->ReadPropertyBoolean("logmax");
-			$this->setBuffer("Response","false");			
+			$this->setBuffer("Response",false);			
 			$Name=IPS_GetName($this->InstanceID);			
 			$this->setBuffer("Command","Enroll1");
 			$this->setBuffer("Answer","Begin");
@@ -657,7 +657,7 @@ Fingerreader GT511C3
 		
 		protected function Enroll2 () {
 			$debug=$this->ReadPropertyBoolean("logmax");
-			$this->setBuffer("Response","false");			
+			$this->setBuffer("Response",false);			
 			$Name=IPS_GetName($this->InstanceID);			
 			$this->setBuffer("Command","Enroll2");
 			$this->setBuffer("Answer","Begin");
@@ -672,7 +672,7 @@ Fingerreader GT511C3
 		
 		protected function Enroll3 () {
 			$debug=$this->ReadPropertyBoolean("logmax");
-			$this->setBuffer("Response","false");			
+			$this->setBuffer("Response",false);			
 			$Name=IPS_GetName($this->InstanceID);			
 			$this->setBuffer("Command","Enroll3");
 			$this->setBuffer("Answer","Begin");
