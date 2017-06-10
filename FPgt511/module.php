@@ -321,13 +321,14 @@ Fingerreader GT511C3
 			return $erg;
 		}
 
-		protected function OnlyIdentify () {							//only Identify Command - for real identify needs Capture
+		protected function OnlyIdentify () { 							//only Identify Command - for real identify needs Capture
 			$debug=$this->ReadPropertyBoolean("logmax");
 			$this->setBuffer("Response","false");
 			$Name=IPS_GetName($this->InstanceID);						//1:N Identification of the capture fingerprint image with the database
 			$this->setBuffer("Command","OnlyIdentify");
 			$this->setBuffer("Answer","Begin");
-			if ($debug) IPS_LogMessage($Name,"OnlyIdentify gestartet - Setze Speicherplatz auf 0");	
+			if ($debug) IPS_LogMessage($Name,"OnlyIdentify gestartet - Setze Speicherplatz auf 0");
+			$Identify_ID=IPS_GetVariableIDByName("Identify",$this->InstanceID); 			
 			$Speicherplatz_ID=IPS_GetVariableIDByName("Speicherplatz",$Identify_ID);
 			SetValueInteger($Speicherplatz_ID,0); 
 			$Command=array("\x51","\x00");									
@@ -339,7 +340,7 @@ Fingerreader GT511C3
 				IPS_Sleep(100);											//warte ResponseAuswertung ab
 				$response=$this->getBuffer("Response");
 				if ($response="true") {	
-					$Identify_ID=IPS_GetVariableIDByName("Identify",$this->InstanceID); 
+
 					SetValueBoolean($Identify_ID,true);
 					if ($debug) IPS_LogMessage($Name,"Setze Variable Identify ($Identify_ID) auf true"); 
 					if ($debug) IPS_LogMessage($Name,"OnlyIdentify beendet erg=$erg");
