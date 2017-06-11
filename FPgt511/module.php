@@ -369,6 +369,7 @@ Fingerreader GT511C3
 			if ($debug) IPS_LogMessage($Name,"IsFingerPress beendet: $FingerPress"); 
 			if ($FingerPress==true) $erg=true; 
 			else $erg=false;
+			if ($debug) IPS_LogMessage($Name,"IsFingerPress beendet Fehleranalyse: $FingerPress $erg"); 
 			return $erg;													//Auswertung über ResponseParameterAuswertung 
 		}
 
