@@ -629,11 +629,11 @@ Fingerreader GT511C3
 				elseif ($Befehl == "CheckEnrolled") {
 					if ($word1 == '1004') {
 						IPS_LogMessage($Name,"ResponseAuswertung: CheckEnrolled erfolgreich - ID ist noch frei");
-						$this->SetBuffer("CheckEnrolledB","true");			
+						$this->SetBuffer("CheckEnrolledB","false");			
 					}
 					elseif ($word1 == '1005') {
 						if ($debug) IPS_LogMessage($Name,"ResponseAuswertung: CheckEnrolled erfolgreich - $word1 - ID ist schon belegt");
-						$this->SetBuffer("CheckEnrolledB","false");	
+						$this->SetBuffer("CheckEnrolledB","true");	
 					}					
 				}
 				elseif ($Befehl == "DeleteID") {
