@@ -392,7 +392,11 @@ Fingerreader GT511C3
   			$Command=array("\x41","\x00");										//
 			$Parameter=array("\x00","\x00","\x00","\x00");
 			$sendestring=$this->buildstring ($Parameter,$Command);
-			$erg=$this->senden ($sendestring,"DeleteAll",0,600,"ACK");
+			$this->senden ($sendestring,"DeleteAll",0,600,"ACK");
+			//Weise Buffer(String) Ergebnis in Boolean zu
+			if($this->getBuffer("DeleteAllB")=="true") $erg=true;
+			else $erg=false;
+			//			
 			If ($erg===true) IPS_LogMessage($Name,"Letzter Befehl: ".$this->getBuffer("Command").", Alle Speicherplätze gelöscht"); 
 			if ($debug) IPS_LogMessage($Name,"DeleteAll beendet");
 			return $erg;
@@ -409,7 +413,11 @@ Fingerreader GT511C3
 			$Command=array("\x40","\x00");										//
 			$Parameter=array($Speicherplatzh,"\x00","\x00","\x00");
 			$sendestring=$this->buildstring ($Parameter,$Command);
-			$erg=$this->senden ($sendestring,"DeleteID",2,600,"ACK");
+			$this->senden ($sendestring,"DeleteID",2,600,"ACK");
+			//Weise Buffer(String) Ergebnis in Boolean zu
+			if($this->getBuffer("DeleteIDlB")=="true") $erg=true;
+			else $erg=false;
+			//			
 			If ($erg===true) IPS_LogMessage($Name,"Letzter Befehl: ".$this->getBuffer("Command").", Speicherplatz: $Speicherplatz gelöscht"); 
 			if ($debug) IPS_LogMessage($Name,"DeleteID $Speicherplatz beendet");
 			return $erg;
@@ -557,6 +565,14 @@ Fingerreader GT511C3
 					IPS_LogMessage($Name,"ResponseAuswertung: Enroll-3 fehlerhaft: $ErrorText");  
 					$this->SetBuffer("Enroll3B","false");					
 				}	
+				elseif ($Befehl === "DeleteAll") {
+					IPS_LogMessage($Name,"ResponseAuswertung: DeleteAll fehlerhaft: $ErrorText");  
+					$this->SetBuffer("DeleteAllB","false");					
+				}
+				elseif ($Befehl === "DeleteID") {
+					IPS_LogMessage($Name,"ResponseAuswertung: DeleteID fehlerhaft: $ErrorText");  
+					$this->SetBuffer("DeleteIDB","false");					
+				}
 			}
 			//Im NOACK TEIL Auswertung der Details pro Befehl - a
 			elseif ($Antwort == "ACK") {
@@ -601,7 +617,7 @@ Fingerreader GT511C3
 						$this->SetBuffer("CheckEnrolledB","true");			
 					}
 					elseif ($word1 == '1005') {
-						IPS_LogMessage($Name,"ResponseAuswertung: CheckEnrolled erfolgreich - $word1 - ID ist schon belegt");
+						if ($debug) IPS_LogMessage($Name,"ResponseAuswertung: CheckEnrolled erfolgreich - $word1 - ID ist schon belegt");
 						$this->SetBuffer("CheckEnrolledB","false");	
 					}					
 				}
@@ -620,8 +636,16 @@ Fingerreader GT511C3
 					$this->SetBuffer($Befehl."B","true");							//B an Namen für Buffervariablen	
 				}			
 				elseif ($Befehl == "SetLED") { 
-					IPS_LogMessage($Name,"ResponseAuswertung: SetLED erfolgreich ");
+					if ($debug) IPS_LogMessage($Name,"ResponseAuswertung: SetLED erfolgreich ");
 					$this->SetBuffer("SetLEDB","true");
+				}	
+				elseif ($Befehl === "DeleteAll") {
+					IPS_LogMessage($Name,"ResponseAuswertung: DeleteAll erfolgreich: $ErrorText");  
+					$this->SetBuffer("DeleteAllB","true");					
+				}
+				elseif ($Befehl === "DeleteID") {
+					IPS_LogMessage($Name,"ResponseAuswertung: DeleteID erfolgreich: $ErrorText");  
+					$this->SetBuffer("DeleteIDB","true");					
 				}				
 			}
 			return;
