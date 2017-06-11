@@ -542,19 +542,19 @@ Fingerreader GT511C3
 					$this->SetBuffer("OnlyIdentifyB","false");					
 				}	
 				elseif ($Befehl === "EnrollStart") {
-					IPS_LogMessage($Name,"ResponseAuswertung: EnrollStart fehlerhaft: $ErrorText"));  
+					IPS_LogMessage($Name,"ResponseAuswertung: EnrollStart fehlerhaft: $ErrorText");  
 					$this->SetBuffer("EnrollStartB","false");					
 				}
 				elseif ($Befehl === "Enroll1") {
-					IPS_LogMessage($Name,"ResponseAuswertung: Enroll-1 fehlerhaft: $ErrorText"));  
+					IPS_LogMessage($Name,"ResponseAuswertung: Enroll-1 fehlerhaft: $ErrorText");  
 					$this->SetBuffer("Enroll1B","false");					
 				}
 				elseif ($Befehl === "Enroll2") {
-					IPS_LogMessage($Name,"ResponseAuswertung: Enroll-2 fehlerhaft: $ErrorText"));  
+					IPS_LogMessage($Name,"ResponseAuswertung: Enroll-2 fehlerhaft: $ErrorText");  
 					$this->SetBuffer("Enroll2B","false");					
 				}
 				elseif ($Befehl === "Enroll3") {
-					IPS_LogMessage($Name,"ResponseAuswertung: Enroll-3 fehlerhaft: $ErrorText"));  
+					IPS_LogMessage($Name,"ResponseAuswertung: Enroll-3 fehlerhaft: $ErrorText");  
 					$this->SetBuffer("Enroll3B","false");					
 				}	
 			}
