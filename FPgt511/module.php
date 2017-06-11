@@ -922,8 +922,8 @@ elseif (GetValueBoolean($Par_ID)==true) {
 			$scriptid = $this->RegisterScript("einschalten", "einschalten", 
 			'<?
 $Par_ID=IPS_GetParent($_IPS[\'SELF\']);
-$Name=IPS_GetName($Par_ID);
 $Instanz_ID=IPS_GetParent($Par_ID);
+$Name=IPS_GetName($Instanz_ID);
 $erg=FPgt511_LEDein($Instanz_ID);
 if ($erg) IPS_LogMessage($Name,"$Name erfolgreich eingeschaltet (".$_IPS[\'SELF\'].")");
 else IPS_LogMessage($Name,"$Name nicht erfolgreich eingeschaltet (".$_IPS[\'SELF\'].")");
@@ -940,8 +940,8 @@ else IPS_LogMessage($Name,"$Name nicht erfolgreich eingeschaltet (".$_IPS[\'SELF
 			$scriptid = $this->RegisterScript("ausschalten", "ausschalten", 
 			'<?
 $Par_ID=IPS_GetParent($_IPS[\'SELF\']);
-$Name=IPS_GetName($Par_ID);
 $Instanz_ID=IPS_GetParent($Par_ID);
+$Name=IPS_GetName($Instanz_ID);
 $erg=FPgt511_LEDaus($Instanz_ID);
 if ($erg) IPS_LogMessage($Name,"$Name erfolgreich ausgeschaltet (".$_IPS[\'SELF\'].")");
 else IPS_LogMessage($Name,"$Name nicht erfolgreich ausgeschaltet (".$_IPS[\'SELF\'].")");
