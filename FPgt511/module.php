@@ -707,7 +707,7 @@ Fingerreader GT511C3
 					}
 				}
 				else {
-					IPS_LogMessage($Name,"Senden: $functionname - erfolgreich: $answer erhalten");
+					if ($debug) IPS_LogMessage($Name,"Senden: $functionname - erfolgreich: $answer erhalten");
 					return true;
 				}
 			}
