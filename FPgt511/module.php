@@ -242,7 +242,7 @@ Fingerreader GT511C3
 		
 		public function GetEnrollCount () {								//Get enrolled fingerprint count
 			$debug=$this->ReadPropertyBoolean("logmax");
-			$this->setBuffer("GetEnrollCountB","0");
+			$this->setBuffer("GetEnrollCountB","false");
 			$Name=IPS_GetName($this->InstanceID);			
 			$this->setBuffer("Command","GetEnrollCount");
 			$this->setBuffer("Answer","Begin");
@@ -251,9 +251,10 @@ Fingerreader GT511C3
 			$Parameter=array("\x00","\x00","\x00","\x00");
 			$sendestring=$this->buildstring ($Parameter,$Command);
 			$this->senden ($sendestring,"GetEnrollCount",3,600,"ACK");
-			//Weise Buffer(String) Ergebnis in Boolean zu
+			IPS_Sleep(150);														//Warte Responseauswertung ab
+			//Weise Buffer(String) Ergebnis in INTEGER zu
 			if($this->getBuffer("GetEnrollCountB")!="false") $erg=$this->getBuffer("GetEnrollCountB");
-			else $erg=false;
+			else $erg=0;
 			//
 			if ($debug) IPS_LogMessage($Name,"GetEnrollCount beendet: $erg");
 			return ($erg);
