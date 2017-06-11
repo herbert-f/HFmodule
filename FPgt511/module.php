@@ -567,14 +567,19 @@ Fingerreader GT511C3
 				}							
 				elseif ($Befehl == "IsFingerPress") {
 					if ($word1 == '1012') {
-						IPS_LogMessage($Name,"IsFingerPress erfolgreich - Finger not pressed");
+						if ($debug) IPS_LogMessage($Name,"ResponseAuswertung: IsFingerPress erfolgreich - Finger not pressed");
 						$this->SetBuffer("FingerPressB","false");		//
 					}
 					if ($word1 == '0000') {
-						IPS_LogMessage($Name,"IsFingerPress erfolgreich - Finger pressed");
-						$this->SetBuffer("FingerPressB","true");
+						if ($debug) IPS_LogMessage($Name,"ResponseAuswertung: IsFingerPress erfolgreich - Finger pressed");
+						$this->SetBuffer("ResponseAuswertung: FingerPressB","true");
 					}					
 				}
+				elseif ($Befehl == "CaptureFinger") {
+						if ($debug) IPS_LogMessage($Name,"ResponseAuswertung: CaptureFinger erfolgreich - Fingerabdruck eingelesen");
+						$this->SetBuffer("CaptureFinger","true");
+					}					
+				}				
 				elseif ($Befehl == "CheckEnrolled") {
 					if ($word1 == '1004') {
 						IPS_LogMessage($Name,"ResponseAuswertung: CheckEnrolled erfolgreich - ID ist noch frei");
