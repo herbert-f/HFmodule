@@ -675,7 +675,7 @@ Fingerreader GT511C3
 			$this->setBuffer("Answer","Begin");
 			if ($debug) IPS_LogMessage($Name,"EnrollStart gestartet");        // Command = EnrollStart Parameter = ID(0~199) If ID === -1, then “Enrollment without saving” will be stated.
 			$Command=array("\x22","\x00");										//
-			$Parameter=array($Speicherplatz,"\x00","\x00","\x00");
+			$Parameter=array($Speicherplatz,"\x00","\x00","\x00","\x00");
 			$sendestring=$this->buildstring ($Parameter,$Command);
 			$this->senden ($sendestring,"EnrollStart",3,600,"ACK");
 			//Weise Buffer(String) Ergebnis in Boolean zu
