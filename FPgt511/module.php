@@ -540,15 +540,14 @@ Fingerreader GT511C3
 				elseif ($Befehl === "OnlyIdentify") {
 					IPS_LogMessage($Name,"ResponseAuswertung: NOACK: - Fingerabdruck nicht erkannt - Speicherplatz: ".(hexdec($word1)-48));  //48 nichts in Doku enthalten
 					$this->SetBuffer("OnlyIdentifyB","false");					
-				}
-				
+				}				
 			}
 			//Im NOACK TEIL Auswertung der Details pro Befehl - a
 			elseif ($Antwort == "ACK") {
 				//
 				if ($Befehl == "GetEnrollCount") { 
 					IPS_LogMessage($Name,"ResponseAuswertung: GetEnrollCount erfolgreich - belegte Speicherplätze: ".hexdec($word1));
-					$this->SetBuffer("EnrollCountB",hexdec($word1));
+					$this->SetBuffer("GetEnrollCountB",hexdec($word1));
 				}
 				elseif ($Befehl == "OnlyIdentify") {
 					IPS_LogMessage($Name,"ACK: - Fingerabdruck erkannt - Speicherplatz: ".(hexdec($word1)-48));  //48 nichts in Doku enthalten
