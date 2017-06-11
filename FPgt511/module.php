@@ -577,8 +577,7 @@ Fingerreader GT511C3
 				}
 				elseif ($Befehl == "CaptureFinger") {
 						if ($debug) IPS_LogMessage($Name,"ResponseAuswertung: CaptureFinger erfolgreich - Fingerabdruck eingelesen");
-						$this->SetBuffer("CaptureFinger","true");
-					}					
+						$this->SetBuffer("CaptureFinger","true");					
 				}				
 				elseif ($Befehl == "CheckEnrolled") {
 					if ($word1 == '1004') {
