@@ -540,7 +540,23 @@ Fingerreader GT511C3
 				elseif ($Befehl === "OnlyIdentify") {
 					IPS_LogMessage($Name,"ResponseAuswertung: NOACK: - Fingerabdruck nicht erkannt - Speicherplatz: ".(hexdec($word1)-48));  //48 nichts in Doku enthalten
 					$this->SetBuffer("OnlyIdentifyB","false");					
-				}				
+				}	
+				elseif ($Befehl === "EnrollStart") {
+					IPS_LogMessage($Name,"ResponseAuswertung: EnrollStart fehlerhaft: $ErrorText"));  
+					$this->SetBuffer("EnrollStartB","false");					
+				}
+				elseif ($Befehl === "Enroll1") {
+					IPS_LogMessage($Name,"ResponseAuswertung: Enroll-1 fehlerhaft: $ErrorText"));  
+					$this->SetBuffer("Enroll1B","false");					
+				}
+				elseif ($Befehl === "Enroll2") {
+					IPS_LogMessage($Name,"ResponseAuswertung: Enroll-2 fehlerhaft: $ErrorText"));  
+					$this->SetBuffer("Enroll2B","false");					
+				}
+				elseif ($Befehl === "Enroll3") {
+					IPS_LogMessage($Name,"ResponseAuswertung: Enroll-3 fehlerhaft: $ErrorText"));  
+					$this->SetBuffer("Enroll3B","false");					
+				}	
 			}
 			//Im NOACK TEIL Auswertung der Details pro Befehl - a
 			elseif ($Antwort == "ACK") {
@@ -596,10 +612,9 @@ Fingerreader GT511C3
 					IPS_LogMessage($Name,"ResponseAuswertung: DeleteAll erfolgreich - : ".hexdec($word1));
 				}
 				elseif (($Befehl == "Enroll1") || ($Befehl == "Enroll2") || ($Befehl === "Enroll3")) { 
-					$Speicherplatz=(int) hexdec($word1);
-					if ($Speicherplatz>0 && $Speicherplatz<200) {
-						IPS_LogMessage($Name,"ResponseAuswertung: Fingerprint schon eingespeichert - : ".hexdec($word1));
-					}	
+					if ($debug)	IPS_LogMessage($Name,"ResponseAuswertung: $Befehl erfolgreich");
+					$this->SetBuffer($Befehl."B","true");							//B an Namen für Buffervariablen
+				}	
 				}
 				if ($Befehl == "SetLED") { 
 					IPS_LogMessage($Name,"ResponseAuswertung: SetLED erfolgreich ");
@@ -663,8 +678,12 @@ Fingerreader GT511C3
 			$Command=array("\x22","\x00");										//
 			$Parameter=array($Speicherplatz,"\x00","\x00","\x00");
 			$sendestring=$this->buildstring ($Parameter,$Command);
-			$erg=$this->senden ($sendestring,"EnrollStart",3,600,"ACK");
-			if ($debug) IPS_LogMessage($Name,"EnrollStart beendet");
+			$this->senden ($sendestring,"EnrollStart",3,600,"ACK");
+			//Weise Buffer(String) Ergebnis in Boolean zu
+			if($this->getBuffer("EnrollStartB")=="true") $erg=true;
+			else $erg=false;
+			//			
+			if ($debug) IPS_LogMessage($Name,"EnrollStart beendet: $erg");
 			return $erg;
 		}		
 
@@ -678,8 +697,12 @@ Fingerreader GT511C3
 			$Command=array("\x23","\x00");										//
 			$Parameter=array("\x00","\x00","\x00","\x00");
 			$sendestring=$this->buildstring ($Parameter,$Command);
-			$erg=$this->senden ($sendestring,"Enroll1",4,1500,"ACK");
-			if ($debug) IPS_LogMessage($Name,"Enroll1 beendet");	
+			$this->senden ($sendestring,"Enroll1",4,1500,"ACK");
+			//Weise Buffer(String) Ergebnis in Boolean zu
+			if($this->getBuffer("Enroll1B")=="true") $erg=true;
+			else $erg=false;
+			//				
+			if ($debug) IPS_LogMessage($Name,"Enroll1 beendet: $erg");	
 			return $erg;
 		}	
 		
@@ -693,8 +716,12 @@ Fingerreader GT511C3
 			$Command=array("\x24","\x00");										//
 			$Parameter=array("\x00","\x00","\x00","\x00");
 			$sendestring=$this->buildstring ($Parameter,$Command);
-			$erg=$this->senden ($sendestring,"Enroll2",4,1500,"ACK");
-			if ($debug) IPS_LogMessage($Name,"Enroll2 beendet");	
+			$this->senden ($sendestring,"Enroll2",4,1500,"ACK");
+			//Weise Buffer(String) Ergebnis in Boolean zu
+			if($this->getBuffer("Enroll2B")=="true") $erg=true;
+			else $erg=false;
+			//				
+			if ($debug) IPS_LogMessage($Name,"Enroll2 beendet: $erg");	
 			return $erg;
 		}	
 		
@@ -708,8 +735,12 @@ Fingerreader GT511C3
 			$Command=array("\x25","\x00");										//
 			$Parameter=array("\x00","\x00","\x00","\x00");
 			$sendestring=$this->buildstring ($Parameter,$Command);
-			$erg=$this->senden ($sendestring,"Enroll3",4,1500,"ACK");
-			if ($debug) IPS_LogMessage($Name,"Enroll3 beendet");	
+			$this->senden ($sendestring,"Enroll3",4,1500,"ACK");
+			//Weise Buffer(String) Ergebnis in Boolean zu
+			if($this->getBuffer("Enroll3B")=="true") $erg=true;
+			else $erg=false;
+			//				
+			if ($debug) IPS_LogMessage($Name,"Enroll3 beendet: $erg");	
 			return $erg;
 		}				
 		
