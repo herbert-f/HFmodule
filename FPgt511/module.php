@@ -611,7 +611,7 @@ Fingerreader GT511C3
 				elseif ($Befehl == "DeleteAll") {
 					IPS_LogMessage($Name,"ResponseAuswertung: DeleteAll erfolgreich - : ".hexdec($word1));
 				}
-				elseif (($Befehl == "EnrollStart") { 
+				elseif ($Befehl == "EnrollStart") { 
 					if ($debug)	IPS_LogMessage($Name,"ResponseAuswertung: $Befehl erfolgreich");
 					$this->SetBuffer("EnrollStartB","true");							//B an Namen für Buffervariablen	
 				}
