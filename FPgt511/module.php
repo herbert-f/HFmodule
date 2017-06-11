@@ -365,7 +365,7 @@ Fingerreader GT511C3
 				$erg=true;
 				$Identify_ID=IPS_GetVariableIDByName("Identify",$this->InstanceID); 
 				SetValueBoolean($Identify_ID,true);
-				if ($debug) IPS_LogMessage($Name,"Setze Variable Identify ($Identify_ID) auf true identify=$identify");			
+				if ($debug) IPS_LogMessage($Name,"Setze Variable Identify ($Identify_ID) auf true");			
 			}
 			else $erg=false;
 			//
