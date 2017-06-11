@@ -346,8 +346,6 @@ Fingerreader GT511C3
 				IPS_Sleep(100);											//warte ResponseAuswertung ab
 				$identify=$this->getBuffer("OnlyIdentifyB");
 				if ($identify==true) {	
-					SetValueBoolean($Identify_ID,true);
-					if ($debug) IPS_LogMessage($Name,"Setze Variable Identify ($Identify_ID) auf true identify=$identify"); 
 					if ($debug) IPS_LogMessage($Name,"OnlyIdentify beendet erg=$erg");
 					return (true);
 				}	
@@ -551,10 +549,13 @@ Fingerreader GT511C3
 					If ((GetValue($Speicherplatz_ID)>0) && (GetValue($Speicherplatz_ID)<199)) {
 						$this->SetBuffer("OnlyIdentifyB",true);	
 						IPS_LogMessage($Name,"ResponseAuswertung: $Befehl Speicherplatz zwischen 1 und 199: ".GetValue($Speicherplatz_ID));						
+						SetValueBoolean($Identify_ID,true);
+						if ($debug) IPS_LogMessage($Name,"Setze Variable Identify ($Identify_ID) auf true identify=$identify");
 					}
 					else	{
 						$this->SetBuffer("OnlyIdentifyB",false);					
-					}	IPS_LogMessage($Name,"ResponseAuswertung: $Befehl KEIN Speicherplatz zwischen 1 und 199: ".GetValue($Speicherplatz_ID));					
+						IPS_LogMessage($Name,"ResponseAuswertung: $Befehl KEIN Speicherplatz zwischen 1 und 199: ".GetValue($Speicherplatz_ID));					
+					}
 				}							
 				elseif ($Befehl == "IsFingerPress") {
 					if ($word1 == '1012') {
