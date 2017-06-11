@@ -267,9 +267,9 @@ Fingerreader GT511C3
 			$this->setBuffer("Command","CheckEnrolled");
 			$this->setBuffer("Answer","Begin");
 			$Speicherplatzh=$this->hexToStr(dechex($Speicherplatz));
-			if ($debug) IPS_LogMessage($Name,"CheckEnrolled $Speicherplatz Hex:$Speicherplatzh gestartet");                                          
+			if ($debug) IPS_LogMessage($Name,"CheckEnrolled $Speicherplatz gestartet");                                          
 			$Command=array("\x21","\x00");										//Command = CheckEnrolled  Parameter =  ID(0~199);
-			$Parameter=array("\x".$Speicherplatzh,"\x00","\x00","\x00");
+			$Parameter=array("\x0a",\x00","\x00","\x00");
 			$sendestring=$this->buildstring ($Parameter,$Command);
 			//senden ($sendestring,$functionname,$replys,$delay,$answer)
 			$this->senden ($sendestring,"CheckEnrolled",0,800,"ACK");		//NOACK für Enrollment erforderlich?	
