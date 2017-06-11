@@ -276,8 +276,14 @@ Fingerreader GT511C3
 			//senden ($sendestring,$functionname,$replys,$delay,$answer)
 			$this->senden ($sendestring,"CheckEnrolled",0,800,"ACK");		//NOACK für Enrollment erforderlich?	
 			//Weise Buffer(String) Ergebnis in Boolean zu
-			if($this->getBuffer("CheckEnrolledB")=="true") $erg=true;
-			else $erg=false;
+			if($this->getBuffer("CheckEnrolledB")=="true") {
+				$erg=true;
+				if ($debug) IPS_LogMessage($Name,"CheckEnrolled für $Speicherplatz beendet: schon belegt"); 
+			}
+			elseif($this->getBuffer("CheckEnrolledB")=="true") {
+				if ($debug) IPS_LogMessage($Name,"CheckEnrolled für $Speicherplatz beendet: nocht nicht belegt"); 
+				$erg=false;
+			}	
 			//
 			if ($debug) IPS_LogMessage($Name,"CheckEnrolled für $Speicherplatz beendet"); 
 			return $erg;
@@ -547,32 +553,39 @@ Fingerreader GT511C3
 					IPS_LogMessage($Name,"ResponseAuswertung: GetEnrollCount nicht erfolgreich ".hexdec($word1));
 					$this->SetBuffer("EnrollCountB","false");
 				}
+				elseif ($Befehl === "CheckEnrolled") {
+					if ($word1 == '1004') {
+						if ($debug) IPS_LogMessage($Name,"ResponseAuswertung: CheckEnrolled: Speicherplatz ist noch frei: $ErrorText");
+					}	
+					if ($debug) IPS_LogMessage($Name,"ResponseAuswertung: CheckEnrolled fehlerhaft: $ErrorText");  
+					$this->SetBuffer("CheckEnrolledB","false");					
+				}				
 				elseif ($Befehl === "OnlyIdentify") {
-					IPS_LogMessage($Name,"ResponseAuswertung: NOACK: - Fingerabdruck nicht erkannt - Speicherplatz: ".(hexdec($word1)-48));  //48 nichts in Doku enthalten
+					if ($debug) IPS_LogMessage($Name,"ResponseAuswertung: NOACK: - Fingerabdruck nicht erkannt - Speicherplatz: ".(hexdec($word1)-48));  //48 nichts in Doku enthalten
 					$this->SetBuffer("OnlyIdentifyB","false");					
 				}	
 				elseif ($Befehl === "EnrollStart") {
-					IPS_LogMessage($Name,"ResponseAuswertung: EnrollStart fehlerhaft: $ErrorText");  
+					if ($debug) IPS_LogMessage($Name,"ResponseAuswertung: EnrollStart fehlerhaft: $ErrorText");  
 					$this->SetBuffer("EnrollStartB","false");					
 				}
 				elseif ($Befehl === "Enroll1") {
-					IPS_LogMessage($Name,"ResponseAuswertung: Enroll-1 fehlerhaft: $ErrorText");  
+					if ($debug) IPS_LogMessage($Name,"ResponseAuswertung: Enroll-1 fehlerhaft: $ErrorText");  
 					$this->SetBuffer("Enroll1B","false");					
 				}
 				elseif ($Befehl === "Enroll2") {
-					IPS_LogMessage($Name,"ResponseAuswertung: Enroll-2 fehlerhaft: $ErrorText");  
+					if ($debug) IPS_LogMessage($Name,"ResponseAuswertung: Enroll-2 fehlerhaft: $ErrorText");  
 					$this->SetBuffer("Enroll2B","false");					
 				}
 				elseif ($Befehl === "Enroll3") {
-					IPS_LogMessage($Name,"ResponseAuswertung: Enroll-3 fehlerhaft: $ErrorText");  
+					if ($debug) IPS_LogMessage($Name,"ResponseAuswertung: Enroll-3 fehlerhaft: $ErrorText");  
 					$this->SetBuffer("Enroll3B","false");					
 				}	
 				elseif ($Befehl === "DeleteAll") {
-					IPS_LogMessage($Name,"ResponseAuswertung: DeleteAll fehlerhaft: $ErrorText");  
+					if ($debug) IPS_LogMessage($Name,"ResponseAuswertung: DeleteAll fehlerhaft: $ErrorText");  
 					$this->SetBuffer("DeleteAllB","false");					
 				}
 				elseif ($Befehl === "DeleteID") {
-					IPS_LogMessage($Name,"ResponseAuswertung: DeleteID fehlerhaft: $ErrorText");  
+					if ($debug) IPS_LogMessage($Name,"ResponseAuswertung: DeleteID fehlerhaft: $ErrorText");  
 					$this->SetBuffer("DeleteIDB","false");					
 				}
 			}
