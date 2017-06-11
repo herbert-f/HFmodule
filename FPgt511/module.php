@@ -368,8 +368,7 @@ Fingerreader GT511C3
 			$FingerPress=$this->getBuffer("FingerPressB");
 			if ($debug) IPS_LogMessage($Name,"IsFingerPress beendet: $FingerPress"); 
 			if ($FingerPress=="true") $erg=true; 
-			else $erg=false;
-			if ($debug) IPS_LogMessage($Name,"IsFingerPress beendet Fehleranalyse: $FingerPress $erg"); 
+			else $erg=false; 
 			return $erg;													//Auswertung über ResponseParameterAuswertung 
 		}
 
@@ -524,10 +523,9 @@ Fingerreader GT511C3
 				) ;
 				$ErrorText=$error_codes[$word1];
 				if ($debug) IPS_LogMessage($Name,"ResponseAuswertung: NOACK: $ErrorText $word1");
-				//$this->SetBuffer("Response",$ErrorText);
 				if ($Befehl == "GetEnrollCount") { 
 					IPS_LogMessage($Name,"ResponseAuswertung: GetEnrollCount nicht erfolgreich ".hexdec($word1));
-					$this->SetBuffer("EnrollCountB",0);
+					$this->SetBuffer("EnrollCountB","false");
 				}
 				elseif ($Befehl === "OnlyIdentify") {
 					IPS_LogMessage($Name,"ResponseAuswertung: NOACK: - Fingerabdruck nicht erkannt - Speicherplatz: ".(hexdec($word1)-48));  //48 nichts in Doku enthalten
