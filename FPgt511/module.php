@@ -613,10 +613,9 @@ Fingerreader GT511C3
 				}
 				elseif (($Befehl == "Enroll1") || ($Befehl == "Enroll2") || ($Befehl === "Enroll3")) { 
 					if ($debug)	IPS_LogMessage($Name,"ResponseAuswertung: $Befehl erfolgreich");
-					$this->SetBuffer($Befehl."B","true");							//B an Namen für Buffervariablen
-				}	
+					$this->SetBuffer($Befehl."B","true");							//B an Namen für Buffervariablen	
 				}
-				if ($Befehl == "SetLED") { 
+				elseif ($Befehl == "SetLED") { 
 					IPS_LogMessage($Name,"ResponseAuswertung: SetLED erfolgreich ");
 					$this->SetBuffer("SetLEDB","true");
 				}				
