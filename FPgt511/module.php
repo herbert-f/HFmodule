@@ -130,9 +130,9 @@ Fingerreader GT511C3
 			$this->setBuffer("AnswerB","Begin");
 			IPS_LogMessage($Name,"Enrollment: EnrollStart gestartet - dieser Vorgang dauert einige Sekunden - Bitte Geduld!"); 
 			//als erstes Anzahl belegte Speicherplätze ermitteln
-			$this->GetEnrollCount();
+			$Belegt=$this->GetEnrollCount();		
 			//als zweites freien Speicherplatz suchen
-			for ($i =($erg+1); $i <= 199; $i++) {
+			for ($i =($Belegt+1); $i <= 199; $i++) {
 				//$Speicherplatzh=$this->hexToStr(dechex($i));
 				$erg=$this->CheckEnrolled($i);
 				IPS_Sleep(400);
