@@ -361,7 +361,12 @@ Fingerreader GT511C3
 			$sendestring=$this->buildstring ($Parameter,$Command);
 			$erg=$this->senden ($sendestring,"OnlyIdentify",4,500,"ACK");
 			//Weise Buffer(String) Ergebnis in Boolean zu
-			if($this->getBuffer("OnlyIdentifyB")=="true") $erg=true;
+			if($this->getBuffer("OnlyIdentifyB")=="true") {
+				$erg=true;
+				$Identify_ID=IPS_GetVariableIDByName("Identify",$this->InstanceID); 
+				SetValueBoolean($Identify_ID,true);
+				if ($debug) IPS_LogMessage($Name,"Setze Variable Identify ($Identify_ID) auf true identify=$identify");			
+			}
 			else $erg=false;
 			//
 			if ($debug) IPS_LogMessage($Name,"OnlyIdentify beendet erg=$erg");
@@ -605,9 +610,7 @@ Fingerreader GT511C3
 					SetValueInteger($Speicherplatz_ID,(hexdec($word1)));					
 					If ((GetValue($Speicherplatz_ID)>0) && (GetValue($Speicherplatz_ID)<199)) {
 						$this->SetBuffer("OnlyIdentifyB","true");	
-						IPS_LogMessage($Name,"ResponseAuswertung: $Befehl Speicherplatz zwischen 1 und 199: ".GetValue($Speicherplatz_ID));						
-						SetValueBoolean($Identify_ID,true);
-						if ($debug) IPS_LogMessage($Name,"Setze Variable Identify ($Identify_ID) auf true identify=$identify");
+						if ($debug) IPS_LogMessage($Name,"ResponseAuswertung: $Befehl ERKANNT: Speicherplatz zwischen 1 und 199: ".GetValue($Speicherplatz_ID));						
 					}
 					else	{
 						$this->SetBuffer("OnlyIdentifyB","false");					
