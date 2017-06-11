@@ -559,7 +559,7 @@ Fingerreader GT511C3
 					$this->SetBuffer("CheckEnrolledB","false");					
 				}				
 				elseif ($Befehl === "OnlyIdentify") {
-					if ($debug) IPS_LogMessage($Name,"ResponseAuswertung: NOACK: - Fingerabdruck nicht erkannt - Speicherplatz: ".(hexdec($word1)-48));  //48 nichts in Doku enthalten
+					if ($debug) IPS_LogMessage($Name,"ResponseAuswertung: NOACK: - Fingerabdruck nicht erkannt - Speicherplatz: ".(hexdec($word1)));  //
 					$this->SetBuffer("OnlyIdentifyB","false");					
 				}
 				elseif ($Befehl === "IsFingerPress") {
@@ -599,10 +599,10 @@ Fingerreader GT511C3
 					$this->SetBuffer("GetEnrollCountB",hexdec($word1));
 				}
 				elseif ($Befehl == "OnlyIdentify") {
-					IPS_LogMessage($Name,"ACK: - Fingerabdruck erkannt - Speicherplatz: ".(hexdec($word1)-48));  //48 nichts in Doku enthalten
+					IPS_LogMessage($Name,"ACK: - Fingerabdruck erkannt - Speicherplatz: ".(hexdec($word1)));  //
 					$Identify_ID=IPS_GetVariableIDByName("Identify",$this->InstanceID);
 					$Speicherplatz_ID=IPS_GetVariableIDByName("Speicherplatz",$Identify_ID);
-					SetValueInteger($Speicherplatz_ID,(hexdec($word1)-48));					
+					SetValueInteger($Speicherplatz_ID,(hexdec($word1)));					
 					If ((GetValue($Speicherplatz_ID)>0) && (GetValue($Speicherplatz_ID)<199)) {
 						$this->SetBuffer("OnlyIdentifyB","true");	
 						IPS_LogMessage($Name,"ResponseAuswertung: $Befehl Speicherplatz zwischen 1 und 199: ".GetValue($Speicherplatz_ID));						
