@@ -673,7 +673,7 @@ Fingerreader GT511C3
 			$Name=IPS_GetName($this->InstanceID);			
 			$this->setBuffer("Command","EnrollStart");
 			$this->setBuffer("Answer","Begin");
-			$Speicherplatzh=$this->int2bytehex($Speicherplatz); 
+			$Speicherplatzh=$this->hexToStr($this->int2bytehex($Speicherplatz)); 
 			if ($debug) IPS_LogMessage($Name,"EnrollStart gestartet für Speicherplatz $Speicherplatz in Hex: $Speicherplatzh");        // Command = EnrollStart Parameter = ID(0~199) If ID === -1, then “Enrollment without saving” will be stated.
 			$Command=array("\x22","\x00");										//
 			$Parameter=array("\x".$Speicherplatz,"\x00","\x00","\x00");
