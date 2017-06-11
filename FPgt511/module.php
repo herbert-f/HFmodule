@@ -130,7 +130,7 @@ Fingerreader GT511C3
 			$this->setBuffer("AnswerB","Begin");
 			IPS_LogMessage($Name,"Enrollment: EnrollStart gestartet - dieser Vorgang dauert einige Sekunden - Bitte Geduld!"); 
 			//als erstes Anzahl belegte Speicherplätze ermitteln
-			$erg=$this->GetEnrollCount();
+			$this->GetEnrollCount();
 			//als zweites freien Speicherplatz suchen
 			for ($i =($erg+1); $i <= 199; $i++) {
 				//$Speicherplatzh=$this->hexToStr(dechex($i));
@@ -252,7 +252,7 @@ Fingerreader GT511C3
 			$sendestring=$this->buildstring ($Parameter,$Command);
 			$this->senden ($sendestring,"GetEnrollCount",3,600,"ACK");
 			//Weise Buffer(String) Ergebnis in Boolean zu
-			if($this->getBuffer("GetEnrollCountB")=="true") $erg=true;
+			if($this->getBuffer("GetEnrollCountB")!="false") $erg=$this->getBuffer("GetEnrollCountB");
 			else $erg=false;
 			//
 			if ($debug) IPS_LogMessage($Name,"GetEnrollCount beendet: $erg");
