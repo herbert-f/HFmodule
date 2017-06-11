@@ -825,7 +825,7 @@ Fingerreader GT511C3
 			return $string;
 		}
 		
-		function int2bytehex($int) {
+		protected function int2bytehex($int) {
 			if ($int<16) {
 				$bytehex="0".dechex($int);
 			}
