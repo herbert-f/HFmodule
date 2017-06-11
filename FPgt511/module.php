@@ -284,8 +284,6 @@ Fingerreader GT511C3
 				if ($debug) IPS_LogMessage($Name,"CheckEnrolled für $Speicherplatz beendet: Fehler oder noch nicht belegt"); 
 				$erg=false;
 			}	
-			//
-			if ($debug) IPS_LogMessage($Name,"CheckEnrolled für $Speicherplatz beendet"); 
 			return $erg;
 		}		
 
