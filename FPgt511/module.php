@@ -227,7 +227,11 @@ Fingerreader GT511C3
 				if ($debug) IPS_LogMessage($Name,"SetLED ausschalten");
 			}
 			$sendestring=$this->buildstring ($Parameter,$Command);
-			$erg=$this->senden ($sendestring,"SetLED",4,400,"ACK");
+			$this->senden ($sendestring,"SetLED",4,400,"ACK");
+			//Weise Buffer(String) Ergebnis in Boolean zu
+			if($this->getBuffer("SetLEDB")=="true") $erg=true;
+			else $erg=false;
+			//
 			if ($erg==true) {
 				if ($status==true) SetValueBoolean($LED_ID,true);
 				else SetValueBoolean($LED_ID,false);
@@ -238,7 +242,7 @@ Fingerreader GT511C3
 		
 		public function GetEnrollCount () {								//Get enrolled fingerprint count
 			$debug=$this->ReadPropertyBoolean("logmax");
-			$this->setBuffer("GetEnrollCountB","false");
+			$this->setBuffer("GetEnrollCountB","0");
 			$Name=IPS_GetName($this->InstanceID);			
 			$this->setBuffer("Command","GetEnrollCount");
 			$this->setBuffer("Answer","Begin");
@@ -247,11 +251,11 @@ Fingerreader GT511C3
 			$Parameter=array("\x00","\x00","\x00","\x00");
 			$sendestring=$this->buildstring ($Parameter,$Command);
 			$this->senden ($sendestring,"GetEnrollCount",3,600,"ACK");
-			if ($this->getBuffer("ANSWER") === "NOACK") {
-				$erg = "Fehler bei Abruf - erneut versuchen!";
-			}
-			else $erg=$this->getBuffer("EnrollCountB");
-			if ($debug) IPS_LogMessage($Name,"GetEnrollCount beendet");
+			//Weise Buffer(String) Ergebnis in Boolean zu
+			if($this->getBuffer("GetEnrollCountB")=="true") $erg=true;
+			else $erg=false;
+			//
+			if ($debug) IPS_LogMessage($Name,"GetEnrollCount beendet: $erg");
 			return ($erg);
 		}
 		
@@ -267,7 +271,11 @@ Fingerreader GT511C3
 			$Parameter=array($Speicherplatzh,"\x00","\x00","\x00");
 			$sendestring=$this->buildstring ($Parameter,$Command);
 			//senden ($sendestring,$functionname,$replys,$delay,$answer)
-			$erg=$this->senden ($sendestring,"CheckEnrolled",0,800,"ACK");		//NOACK für Enrollment erforderlich?	
+			$this->senden ($sendestring,"CheckEnrolled",0,800,"ACK");		//NOACK für Enrollment erforderlich?	
+			//Weise Buffer(String) Ergebnis in Boolean zu
+			if($this->getBuffer("CheckEnrolledB")=="true") $erg=true;
+			else $erg=false;
+			//
 			if ($debug) IPS_LogMessage($Name,"CheckEnrolled für $Speicherplatz beendet"); 
 			return $erg;
 		}		
@@ -290,7 +298,11 @@ Fingerreader GT511C3
 				$time=300;
 			}
 			$sendestring=$this->buildstring ($Parameter,$Command);
-			$erg=$this->senden ($sendestring,"CaptureFinger",3,$time,"ACK");
+			$this->senden ($sendestring,"CaptureFinger",3,$time,"ACK");
+			//Weise Buffer(String) Ergebnis in Boolean zu
+			if($this->getBuffer("CaptureFingerB")=="true") $erg=true;
+			else $erg=false;
+			//			
 			if ($debug) {
 				if($erg==true) IPS_LogMessage($Name,"CaptureFinger erfolgreich beendet");
 				else IPS_LogMessage($Name,"CaptureFinger NICHT erfolgreich beendet");				
@@ -311,10 +323,10 @@ Fingerreader GT511C3
 			if ($debug) IPS_LogMessage($Name,"Identify gestartet");         // 1:N Identification of the capture fingerprint image with the database
 			$erg=$this->CaptureFinger(false);
 			IPS_Sleep(200);
-			if($erg==true) {
+			if($erg=="true") {
 				IPS_LogMessage($Name,"Identify: CaptureFinger erfolgreich - Step 1 (von 2)"); 
 				$erg=$this-> OnlyIdentify();
-				if($erg==true) {
+				if($erg=="true") {
 					IPS_LogMessage($Name,"Identify: OnlyIdentify erfolgreich - Step 2 (von 2)");
 					return true;
 				}
@@ -341,16 +353,12 @@ Fingerreader GT511C3
 			$Parameter=array("\x00","\x00","\x00","\x00");
 			$sendestring=$this->buildstring ($Parameter,$Command);
 			$erg=$this->senden ($sendestring,"OnlyIdentify",4,500,"ACK");
-			if ($erg==false) return $erg;
-			else {
-				IPS_Sleep(100);											//warte ResponseAuswertung ab
-				$identify=$this->getBuffer("OnlyIdentifyB");
-				if ($identify=="true") {	
-					if ($debug) IPS_LogMessage($Name,"OnlyIdentify beendet erg=$erg");
-					return (true);
-				}	
-				return (false);
-			}	
+			//Weise Buffer(String) Ergebnis in Boolean zu
+			if($this->getBuffer("OnlyIdentifyB")=="true") $erg=true;
+			else $erg=false;
+			//
+			if ($debug) IPS_LogMessage($Name,"OnlyIdentify beendet erg=$erg");
+			return ($erg);
 		}
 		
 		public function IsFingerPress () {                              //Check if a finger is placed on the sensor
@@ -365,10 +373,11 @@ Fingerreader GT511C3
 			$Parameter=array("\x01","\x00","\x00","\x00");                      //This command is used while enrollment, the host waits to take off the finger per enrollment stage
 			$sendestring=$this->buildstring ($Parameter,$Command);
 			$this->senden ($sendestring,"IsFingerPress",3,600,"ACK");
-			$FingerPress=$this->getBuffer("FingerPressB");
-			if ($debug) IPS_LogMessage($Name,"IsFingerPress beendet: $FingerPress"); 
-			if ($FingerPress=="true") $erg=true; 
-			else $erg=false; 
+			//Weise Buffer(String) Ergebnis in Boolean zu
+			if($this->getBuffer("FingerPressB")=="true") $erg=true;
+			else $erg=false;
+			//
+			if ($debug) IPS_LogMessage($Name,"IsFingerPress beendet: $erg"); 
 			return $erg;													//Auswertung über ResponseParameterAuswertung 
 		}
 
@@ -588,6 +597,10 @@ Fingerreader GT511C3
 						IPS_LogMessage($Name,"ResponseAuswertung: Fingerprint schon eingespeichert - : ".hexdec($word1));
 					}	
 				}
+				if ($Befehl == "SetLED") { 
+					IPS_LogMessage($Name,"ResponseAuswertung: SetLED erfolgreich ");
+					$this->SetBuffer("SetLEDB","true");
+				}				
 			}
 			return;
 		}
