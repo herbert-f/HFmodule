@@ -271,6 +271,7 @@ Fingerreader GT511C3
 			if ($debug) IPS_LogMessage($Name,"CheckEnrolled für Speicherplatz $Speicherplatz gestartet");                                          
 			$Command=array("\x21","\x00");										//Command = CheckEnrolled  Parameter =  ID(0~199);
 			$Parameter=array($Speicherplatzh,"\x00","\x00","\x00");
+			IPS_LogMessage($Name,"Fehlersuche $Parameter");
 			$sendestring=$this->buildstring ($Parameter,$Command);
 			//senden ($sendestring,$functionname,$replys,$delay,$answer)
 			$this->senden ($sendestring,"CheckEnrolled",0,800,"ACK");		//NOACK für Enrollment erforderlich?	
