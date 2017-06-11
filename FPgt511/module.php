@@ -627,11 +627,11 @@ Fingerreader GT511C3
 						$this->SetBuffer("CaptureFingerB","true");					
 				}				
 				elseif ($Befehl == "CheckEnrolled") {
-					if ($word1 == '1004') {
-						IPS_LogMessage($Name,"ResponseAuswertung: CheckEnrolled erfolgreich - ID ist noch frei");
-						$this->SetBuffer("CheckEnrolledB","false");			
+					if ($word1 == '1005') {
+						if ($debug) IPS_LogMessage($Name,"ResponseAuswertung: CheckEnrolled erfolgreich - $word1 - ID ist schon belegt");
+						$this->SetBuffer("CheckEnrolledB","true");			
 					}
-					elseif ($word1 == '1005') {
+					else {
 						if ($debug) IPS_LogMessage($Name,"ResponseAuswertung: CheckEnrolled erfolgreich - $word1 - ID ist schon belegt");
 						$this->SetBuffer("CheckEnrolledB","true");	
 					}					
