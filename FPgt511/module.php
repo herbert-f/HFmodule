@@ -135,7 +135,7 @@ Fingerreader GT511C3
 			for ($i =($Belegt+1); $i <= 199; $i++) {
 				//$Speicherplatzh=$this->hexToStr(dechex($i));
 				$erg=$this->CheckEnrolled($i);
-				IPS_Sleep(400);
+				IPS_Sleep(100);
 				if ($debug) IPS_LogMessage($Name,"Enrollment: Prüfe Speicherplatz: $i auf Verfügbarkeit");
 				//echo "\nSpeicherplatz ".ascii2hex($Speicherplatz);
 				if ($erg==true) {
@@ -149,41 +149,41 @@ Fingerreader GT511C3
 			}			
 			//Enrollment starten
 			$erg=$this->EnrollStart ($i);	//Übergabe als Integer
-			IPS_Sleep(400);
+			IPS_Sleep(50);
 			if($erg==true) {
 				IPS_LogMessage($Name,"Enrollment: Enrollstart erfolgreich - Step 2 (von 8) - Bitte Geduld!"); 
 				$erg=$this-> CaptureFinger(true);
-				IPS_Sleep(400);
+				IPS_Sleep(200);
 			}
 			else return false;
 			if($erg==true) {
 				IPS_LogMessage($Name,"Enrollment: CaptureFinger1 erfolgreich - Step 3 (von 8) - Bitte Geduld!"); 
 				$erg=$this-> Enroll1(true);
-				IPS_Sleep(400);
+				IPS_Sleep(200);
 			}			
 			else return false;
 			if($erg==true) {
 				IPS_LogMessage($Name,"Enrollment: Enroll1 erfolgreich - Step 4 (von 8) - Bitte Geduld!"); 
 				$erg=$this-> CaptureFinger(true);
-				IPS_Sleep(400);
+				IPS_Sleep(200);
 			}			
 			else return false;	
 			if($erg==true) {
 				IPS_LogMessage($Name,"Enrollment: CaptureFinger2 erfolgreich - Step 5 (von 8) - Bitte Geduld!"); 
 				$erg=$this-> Enroll2(true);
-				IPS_Sleep(400);
+				IPS_Sleep(200);
 			}			
 			else return false;
 			if($erg==true) {
 				IPS_LogMessage($Name,"Enrollment: Enroll2 erfolgreich - Step 6 (von 8) - Bitte Geduld!"); 
 				$erg=$this-> CaptureFinger(true);
-				IPS_Sleep(400);
+				IPS_Sleep(200);
 			}			
 			else return false;			
 			if($erg==true) {
 				IPS_LogMessage($Name,"Enrollment: CaptureFinger3 erfolgreich - Step 7 (von 8) - Bitte Geduld!"); 
 				$erg=$this-> Enroll3(true);
-				IPS_Sleep(400);
+				IPS_Sleep(200);
 			}			
 			else return false;
 			if($erg==true) {
@@ -274,7 +274,7 @@ Fingerreader GT511C3
 			//print_r($Parameter);
 			$sendestring=$this->buildstring ($Parameter,$Command);
 			//senden ($sendestring,$functionname,$replys,$delay,$answer)
-			$this->senden ($sendestring,"CheckEnrolled",0,800,"ACK");		//NOACK für Enrollment erforderlich?	
+			$this->senden ($sendestring,"CheckEnrolled",0,400,"ACK");		//NOACK für Enrollment erforderlich?	
 			//Weise Buffer(String) Ergebnis in Boolean zu
 			if($this->getBuffer("CheckEnrolledB")=="true") {
 				$erg=true;
@@ -297,12 +297,12 @@ Fingerreader GT511C3
 			if ($enroll_quality==true) {
 				$Parameter=array("\x01","\x00","\x00","\x00");                   //Parameter =0: not best image, but fast Nonzero:best image, but slow
 				if ($debug) IPS_LogMessage($Name,"CaptureFinger gestartet: quality high - but slow");  
-				$time=1500;
+				$time=1300;
 			}
 			else {
 				$Parameter=array("\x00","\x00","\x00","\x00");                   //Parameter =0: not best image, but fast  Nonzero:best image, but slow
 				if ($debug) IPS_LogMessage($Name,"CaptureFinger gestartet: quality low - but quickly"); 
-				$time=300;
+				$time=200;
 			}
 			$sendestring=$this->buildstring ($Parameter,$Command);
 			$this->senden ($sendestring,"CaptureFinger",3,$time,"ACK");
@@ -329,7 +329,7 @@ Fingerreader GT511C3
 			$this->setBuffer("Answer","Begin");
 			if ($debug) IPS_LogMessage($Name,"Identify gestartet");         // 1:N Identification of the capture fingerprint image with the database
 			$erg=$this->CaptureFinger(false);
-			IPS_Sleep(200);
+			IPS_Sleep(50);
 			if($erg=="true") {
 				IPS_LogMessage($Name,"Identify: CaptureFinger erfolgreich - Step 1 (von 2)"); 
 				$erg=$this-> OnlyIdentify();
@@ -359,7 +359,7 @@ Fingerreader GT511C3
 			$Command=array("\x51","\x00");									
 			$Parameter=array("\x00","\x00","\x00","\x00");
 			$sendestring=$this->buildstring ($Parameter,$Command);
-			$erg=$this->senden ($sendestring,"OnlyIdentify",4,500,"ACK");
+			$erg=$this->senden ($sendestring,"OnlyIdentify",4,400,"ACK");
 			//Weise Buffer(String) Ergebnis in Boolean zu
 			if($this->getBuffer("OnlyIdentifyB")=="true") {
 				$erg=true;
@@ -384,7 +384,7 @@ Fingerreader GT511C3
 			$Command=array("\x26","\x00");										//Response = Ack: Parameter = 0: finger is pressed Parameter = nonzero: finger is not pressed
 			$Parameter=array("\x01","\x00","\x00","\x00");                      //This command is used while enrollment, the host waits to take off the finger per enrollment stage
 			$sendestring=$this->buildstring ($Parameter,$Command);
-			$this->senden ($sendestring,"IsFingerPress",3,600,"ACK");
+			$this->senden ($sendestring,"IsFingerPress",3,300,"ACK");
 			//Weise Buffer(String) Ergebnis in Boolean zu
 			if($this->getBuffer("FingerPressB")=="true") $erg=true;
 			else $erg=false;
@@ -726,7 +726,7 @@ Fingerreader GT511C3
 			$Command=array("\x22","\x00");										//
 			$Parameter=array("$Speicherplatzh","\x00","\x00","\x00");
 			$sendestring=$this->buildstring ($Parameter,$Command);
-			$this->senden ($sendestring,"EnrollStart",3,600,"ACK");
+			$this->senden ($sendestring,"EnrollStart",3,300,"ACK");
 			//Weise Buffer(String) Ergebnis in Boolean zu
 			if($this->getBuffer("EnrollStartB")=="true") $erg=true;
 			else $erg=false;
@@ -745,7 +745,7 @@ Fingerreader GT511C3
 			$Command=array("\x23","\x00");										//
 			$Parameter=array("\x00","\x00","\x00","\x00");
 			$sendestring=$this->buildstring ($Parameter,$Command);
-			$this->senden ($sendestring,"Enroll1",4,1500,"ACK");
+			$this->senden ($sendestring,"Enroll1",4,1000,"ACK");
 			//Weise Buffer(String) Ergebnis in Boolean zu
 			if($this->getBuffer("Enroll1B")=="true") $erg=true;
 			else $erg=false;
@@ -764,7 +764,7 @@ Fingerreader GT511C3
 			$Command=array("\x24","\x00");										//
 			$Parameter=array("\x00","\x00","\x00","\x00");
 			$sendestring=$this->buildstring ($Parameter,$Command);
-			$this->senden ($sendestring,"Enroll2",4,1500,"ACK");
+			$this->senden ($sendestring,"Enroll2",4,1000,"ACK");
 			//Weise Buffer(String) Ergebnis in Boolean zu
 			if($this->getBuffer("Enroll2B")=="true") $erg=true;
 			else $erg=false;
@@ -783,7 +783,7 @@ Fingerreader GT511C3
 			$Command=array("\x25","\x00");										//
 			$Parameter=array("\x00","\x00","\x00","\x00");
 			$sendestring=$this->buildstring ($Parameter,$Command);
-			$this->senden ($sendestring,"Enroll3",4,1500,"ACK");
+			$this->senden ($sendestring,"Enroll3",4,1000,"ACK");
 			//Weise Buffer(String) Ergebnis in Boolean zu
 			if($this->getBuffer("Enroll3B")=="true") $erg=true;
 			else $erg=false;
