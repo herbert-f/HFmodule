@@ -24,12 +24,12 @@ Der Fingerprintreader GT-511C3 ist online erhältlich, ich habe diesen hier bezo
 
 #### *bool* FPgt511_SetLED(*int* $ID_Instanz, *bool* $Status);
 	Schaltet LED ein bzw. aus 
-	Parameter:   $Status: true= ein, false = aus
+	Parameter:	$Status: true= ein, false = aus
 	Rückgabe:	Konnte der Befehl erfolgreich ausgeführt werden, liefert er als Ergebnis TRUE, andernfalls FALSE.
 
 #### *int* FPgt511_GetEnrollCount(*int* $ID_Instanz);
-	Ermittelt Anzahl belegter Speicherplätze
-    Rückgabe: Anzahl belegter Speicherplätze in der DB
+	Ermittelt	Anzahl belegter Speicherplätze
+    Rückgabe:	Anzahl belegter Speicherplätze in der DB
 	
 #### *bool* FPgt511_Identify($ID_Instanz);  //(LED muss ein sein)
 	Überprüfung ob Fingerabdruck in Datenbank
@@ -37,13 +37,13 @@ Der Fingerprintreader GT-511C3 ist online erhältlich, ich habe diesen hier bezo
 
 #### *bool* FPgt511_Enrollment($ID_Instanz);  //(LED muss ein sein)
 	Anlernen (Registrieren) eines Fingerabdrucks (dauert ca. 45sec)
-	Rückgabe: Wurde ein FIngerabdruck komplett eingelesen, liefert die Funktion	als Ergebnis TRUE, andernfalls FALSE.
+	Rückgabe:	Wurde ein FIngerabdruck komplett eingelesen, liefert die Funktion	als Ergebnis TRUE, andernfalls FALSE.
 
 #### *bool* FPgt511_IsFingerPress($ID_Instanz);  //(LED muss ein sein)
-	Rückgabe: Wurde ein gedrückter Finger erkannt, liefert die Funktion	als Ergebnis TRUE, andernfalls FALSE.
+	Rückgabe:	Wurde ein gedrückter Finger erkannt, liefert die Funktion	als Ergebnis TRUE, andernfalls FALSE.
 
 #### *bool* FPgt511_CheckEnrolled($ID_Instanz, *int* $Speicherplatz);
-	Rückgabe: Ist der Speicherplatz schon belegt, liefert die Funktion als Ergebnis TRUE, andernfalls FALSE.
+	Rückgabe:	Ist der Speicherplatz schon belegt, liefert die Funktion als Ergebnis TRUE, andernfalls FALSE.
 
 #### *bool* FPgt511_Open($ID_Instanz, *bool* $Info);
 	OPEN (Initialisierung und Möglickeit Infos abzufragen)
