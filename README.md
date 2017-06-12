@@ -22,16 +22,16 @@ Der Fingerprintreader GT-511C3 ist online erhältlich, ich habe diesen hier bezo
 
 ### Aufruf der Funktionen des Moduls
 
-### *bool* FPgt511_SetLED(*int* $ID_Instanz, *bool* $Status);
+#### *bool* FPgt511_SetLED(*int* $ID_Instanz, *bool* $Status);
 	Schaltet LED ein bzw. aus 
 	Parameter:   $Status: true= ein, false = aus
 	Rückgabe:	Konnte der Befehl erfolgreich ausgeführt werden, liefert er als Ergebnis TRUE, andernfalls FALSE.
 
-### *int* FPgt511_GetEnrollCount(*int* $ID_Instanz);
+#### *int* FPgt511_GetEnrollCount(*int* $ID_Instanz);
 	Ermittelt Anzahl belegter Speicherplätze
     Rückgabe: Anzahl belegter Speicherplätze in der DB
 	
-### *bool* FPgt511_Identify($ID_Instanz);  //(LED muss ein sein)
+#### *bool* FPgt511_Identify($ID_Instanz);  //(LED muss ein sein)
 	Überprüfung ob Fingerabdruck in Datenbank
 	Rückgabe:	Wurde der Fingerabdruck als ein gespeicherter erkannt,liefert die Funktion als Ergebnis TRUE, andernfalls FALSE. Speicherung der Nummer des Speicherplatzes in separater Variable,(somit Identifizierung der Person möglich)	
 
