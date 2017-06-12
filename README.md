@@ -10,17 +10,17 @@ Fingerprintreader-Modul GT-511C3 für IP-Symcon (www.ip-symcon.de), entwickelt u
 
 4. Unterhalb des Moduls werden vier Variablen erzeugt (Identify, LED, Speicherplatz und Firmwaredatum). Die Identify-Variable wird bei erfolgreicher Identifizierung auf "true" gesetzt und per Script und Timer nach 20 Sekunden wieder zurückgesetzt. Somit kann auf diese Variable auch getriggert werden.  Der Speicherplatz enthält den letzten erkannten Speicherplatz eines Fingerabdrucks.  
 
-###Anschluss des Fingerprintreaders GT511C3 an einen Raspberry-PI:
+### Anschluss des Fingerprintreaders GT511C3 an einen Raspberry-PI:
 Der Anschluss ist denkbar einfach, der Fingerprintreader GT-511C3 wird direkt, also ohne weitere Bauelemente, an den RaspberryPI angeschlossen. 
 In folgender PDF-Datei ist der Hardwareanschluss dargestellt: https://github.com/herbert-f/HFmodule/blob/master/FPgt511/manual/Anschlussplan_GT511.pdf.
 
 Wen auch das Datenblatt des Fingerprintreader interessiert: (Datasheet: https://www.sparkfun.com/products/11792)
 
-###Bezug Fingerprintreader und Adapterkabel:
+### Bezug Fingerprintreader und Adapterkabel:
 Der Fingerprintreader GT-511C3 ist online erhältlich, ich habe diesen hier bezogen: https://www.electronic-shop.lu/DE/products/152040.
  Wichtig ist, ein passendes Kabel (https://www.electronic-shop.lu/DE/products/152414) zu bestellen, ein Löten am Modul erscheint mir nicht sinnvoll.
 
-###Aufruf der Funktionen des Moduls
+### Aufruf der Funktionen des Moduls
 
 ### *bool* FPgt511_SetLED(*int* $ID_Instanz, *bool* $Status);
 	Schaltet LED ein bzw. aus 
@@ -28,11 +28,11 @@ Der Fingerprintreader GT-511C3 ist online erhältlich, ich habe diesen hier bezo
 	Rückgabe:	Konnte der Befehl erfolgreich ausgeführt werden, 
 				 liefert er als Ergebnis TRUE, andernfalls FALSE.
 
-###*int* FPgt511_GetEnrollCount(*int* $ID_Instanz);
+### *int* FPgt511_GetEnrollCount(*int* $ID_Instanz);
 	Ermittelt Anzahl belegter Speicherplätze
     Rückgabe: Anzahl belegter Speicherplätze in der DB
 	
-###*bool* FPgt511_Identify($ID_Instanz);  //(LED muss ein sein)###
+### *bool* FPgt511_Identify($ID_Instanz);  //(LED muss ein sein)###
 	Überprüfung ob Fingerabdruck in Datenbank
 	Rückgabe:	Wurde der Fingerabdruck als ein gespeicherter erkannt,
 				liefert die Funktion als Ergebnis TRUE, andernfalls FALSE.
