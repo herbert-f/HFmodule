@@ -3,7 +3,7 @@ Fingerprintreader-Modul GT-511C3 für IP-Symcon (www.ip-symcon.de),
 entwickelt und getestet auf RaspberryPI, sollte aber an jeder seriellen 
 Schnittstelle funktionieren.
 
-###Beschreibung dieses IPS-Moduls "Fingerprint Reader GT511C3":
+**Beschreibung dieses IPS-Moduls "Fingerprint Reader GT511C3":**
 1. Dieses Modul kann überall im IPS-Baum hinzugefügt werden, es muss aber der zugehörige Serial-Port als übergeordnete Instanz ausgewählt werden.
 
 2. Mittels der Funktionen im Testbereich des Moduls kann auch das Anlernen erfolgen (LED muss ein sein). 
@@ -12,9 +12,7 @@ Schnittstelle funktionieren.
 bei Erfolg kann mittels  "FPgt511_Identify($ID_Instanz);" der Fingerabdruck überprüft werden.
 
 4. Unterhalb des Moduls werden vier Variablen erzeugt (Identify, LED, Speicherplatz und Firmwaredatum). Die Identify-Variable wird bei erfolgreicher Identifizierung auf "true" gesetzt
-und per Script und Timer nach 20 Sekunden wieder zurückgesetzt. Somit kann auf diese Variable auch getriggert werden.
-Der Speicherplatz enthält den letzten erkannten Speicherplatz eines Fingerabdrucks.
-
+und per Script und Timer nach 20 Sekunden wieder zurückgesetzt. Somit kann auf diese Variable auch getriggert werden.  Der Speicherplatz enthält den letzten erkannten Speicherplatz eines Fingerabdrucks.  
 
 ###Anschluss des Fingerprintreaders GT511C3 an einen Raspberry-PI 2:
 Der Anschluss ist denkbar einfach, der Fingerprintreader GT-511C3 wird direkt, also ohne weitere Bauelemente, an den RaspberryPI angeschlossen. 
