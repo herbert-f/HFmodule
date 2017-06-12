@@ -1,7 +1,7 @@
 ## FPgt511 - Fingerprint Reader GT511C3
 Fingerprintreader-Modul GT-511C3 für IP-Symcon (www.ip-symcon.de), entwickelt und getestet auf RaspberryPI, sollte aber an jeder seriellen Schnittstelle funktionieren.
 
-###Beschreibung dieses IPS-Moduls "Fingerprint Reader GT511C3":##
+###Beschreibung dieses IPS-Moduls "Fingerprint Reader GT511C3":
 1. Dieses Modul kann überall im IPS-Baum hinzugefügt werden, es muss aber der zugehörige Serial-Port als übergeordnete Instanz ausgewählt werden.
 
 2. Mittels der Funktionen im Testbereich des Moduls kann auch das Anlernen erfolgen (LED muss ein sein). 
@@ -20,15 +20,15 @@ Wen auch das Datenblatt des Fingerprintreader interessiert: (Datasheet: https://
 Der Fingerprintreader GT-511C3 ist online erhältlich, ich habe diesen hier bezogen: https://www.electronic-shop.lu/DE/products/152040.
  Wichtig ist, ein passendes Kabel (https://www.electronic-shop.lu/DE/products/152414) zu bestellen, ein Löten am Modul erscheint mir nicht sinnvoll.
 
-###Aufruf der Funktionen des Moduls###
+###Aufruf der Funktionen des Moduls
 
-### *bool* FPgt511_SetLED(*int* $ID_Instanz, *bool* $Status);###
+### *bool* FPgt511_SetLED(*int* $ID_Instanz, *bool* $Status);
 	Schaltet LED ein bzw. aus 
 	Parameter:   $Status: true= ein, false = aus
 	Rückgabe:	Konnte der Befehl erfolgreich ausgeführt werden, 
 				 liefert er als Ergebnis TRUE, andernfalls FALSE.
 
-###*int* FPgt511_GetEnrollCount(*int* $ID_Instanz);###
+###*int* FPgt511_GetEnrollCount(*int* $ID_Instanz);
 	Ermittelt Anzahl belegter Speicherplätze
     Rückgabe: Anzahl belegter Speicherplätze in der DB
 	
