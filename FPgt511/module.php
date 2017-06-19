@@ -93,7 +93,7 @@ Fingerreader GT511C3
 							}
 						}	
 						else {
-							IPS_LogMessage($Name,"ReceiveData: Firmwaredatum und Seriennummer nicht korrekt ausgelsen - bitte OPEN neu versuchen!");
+							IPS_LogMessage($Name,"ReceiveData: Firmwaredatum und Seriennummer nicht korrekt ausgelesen - bitte OPEN neu versuchen!");
 							$this->setBuffer("Answer","NOACK");
 						}	
 						$recString ="";
@@ -227,7 +227,7 @@ Fingerreader GT511C3
 				if ($debug) IPS_LogMessage($Name,"SetLED ausschalten");
 			}
 			$sendestring=$this->buildstring ($Parameter,$Command);
-			$this->senden ($sendestring,"SetLED",4,400,"ACK");
+			$this->senden ($sendestring,"SetLED",2,200,"ACK");
 			//Weise Buffer(String) Ergebnis in Boolean zu
 			if($this->getBuffer("SetLEDB")=="true") $erg=true;
 			else $erg=false;
@@ -250,8 +250,8 @@ Fingerreader GT511C3
 			$Command=array("\x20","\x00");										//0: not to get extra info Nonzero: to get extra info
 			$Parameter=array("\x00","\x00","\x00","\x00");
 			$sendestring=$this->buildstring ($Parameter,$Command);
-			$this->senden ($sendestring,"GetEnrollCount",3,600,"ACK");
-			IPS_Sleep(150);														//Warte Responseauswertung ab
+			$this->senden ($sendestring,"GetEnrollCount",1,300,"ACK");
+			IPS_Sleep(100);														//Warte Responseauswertung ab
 			//Weise Buffer(String) Ergebnis in INTEGER zu
 			if($this->getBuffer("GetEnrollCountB")!="false") $erg=$this->getBuffer("GetEnrollCountB");
 			else $erg=0;
@@ -273,7 +273,7 @@ Fingerreader GT511C3
 			//print_r($Parameter);
 			$sendestring=$this->buildstring ($Parameter,$Command);
 			//senden ($sendestring,$functionname,$replys,$delay,$answer)
-			$this->senden ($sendestring,"CheckEnrolled",0,400,"ACK");		//NOACK für Enrollment erforderlich?	
+			$this->senden ($sendestring,"CheckEnrolled",0,200,"ACK");		//NOACK für Enrollment erforderlich?	
 			//Weise Buffer(String) Ergebnis in Boolean zu
 			if($this->getBuffer("CheckEnrolledB")=="true") {
 				$erg=true;
@@ -304,7 +304,7 @@ Fingerreader GT511C3
 				$time=200;
 			}
 			$sendestring=$this->buildstring ($Parameter,$Command);
-			$this->senden ($sendestring,"CaptureFinger",3,$time,"ACK");
+			$this->senden ($sendestring,"CaptureFinger",2,$time,"ACK");
 			//Weise Buffer(String) Ergebnis in Boolean zu
 			if($this->getBuffer("CaptureFingerB")=="true") $erg=true;
 			else $erg=false;
@@ -358,15 +358,18 @@ Fingerreader GT511C3
 			$Command=array("\x51","\x00");									
 			$Parameter=array("\x00","\x00","\x00","\x00");
 			$sendestring=$this->buildstring ($Parameter,$Command);
-			$erg=$this->senden ($sendestring,"OnlyIdentify",4,400,"ACK");
+			$erg=$this->senden ($sendestring,"OnlyIdentify",2,200,"ACK");
+			$Identify_ID=IPS_GetVariableIDByName("Identify",$this->InstanceID);
 			//Weise Buffer(String) Ergebnis in Boolean zu
 			if($this->getBuffer("OnlyIdentifyB")=="true") {
 				$erg=true;
-				$Identify_ID=IPS_GetVariableIDByName("Identify",$this->InstanceID); 
 				SetValueBoolean($Identify_ID,true);
 				if ($debug) IPS_LogMessage($Name,"Setze Variable Identify ($Identify_ID) auf true");			
 			}
-			else $erg=false;
+			else {
+				SetValueBoolean($Identify_ID,false);				
+				$erg=false;
+			}	
 			//
 			if ($debug) IPS_LogMessage($Name,"OnlyIdentify beendet erg=$erg");
 			return ($erg);
