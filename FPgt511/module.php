@@ -351,7 +351,7 @@ Fingerreader GT511C3
 
 		protected function OnlyIdentify () { 							//only Identify Command - for real identify needs Capture
 			$debug=$this->ReadPropertyBoolean("logmax");
-			$this->setBuffer("OnlyIdentifyB","false");
+			$this->setBuffer("OnlyIdentifyB","unknown");
 			$Name=IPS_GetName($this->InstanceID);						//1:N Identification of the capture fingerprint image with the database
 			$this->setBuffer("Command","OnlyIdentify");
 			$this->setBuffer("Answer","Begin");
@@ -360,16 +360,22 @@ Fingerreader GT511C3
 			$sendestring=$this->buildstring ($Parameter,$Command);
 			$erg=$this->senden ($sendestring,"OnlyIdentify",2,200,"ACK");		//
 			$Identify_ID=IPS_GetVariableIDByName("Identify",$this->InstanceID);
-			IPS_Sleep(200);
-			//Weise Buffer(String) Ergebnis in Boolean zu
-			if($this->getBuffer("OnlyIdentifyB")=="true") {
-				$erg=true;
-				SetValueBoolean($Identify_ID,true);
-				if ($debug) IPS_LogMessage($Name,"Setze Variable Identify ($Identify_ID) auf true");			
-			}
-			else {
-				SetValueBoolean($Identify_ID,false);				
-				$erg=false;
+			//IPS_Sleep(200);
+			$OnlyIdentifyB=$this->getBuffer("OnlyIdentifyB");
+			while (($OnlyIdentifyB=="true") || ($OnlyIdentifyB=="false")) {		//nur wenn $OnlyIdentifyB zugewiesen durch Antwort
+				//Weise Buffer(String) Ergebnis in Boolean zu
+				if($this->getBuffer("OnlyIdentifyB")=="true") {
+					$erg=true;
+					SetValueBoolean($Identify_ID,true);
+					if ($debug) IPS_LogMessage($Name,"Setze Variable Identify ($Identify_ID) auf true");			
+				}
+				elseif($this->getBuffer("OnlyIdentifyB")=="false") {
+					SetValueBoolean($Identify_ID,false);				
+					$erg=false;
+				}	
+				elseif ($debug) IPS_LogMessage($Name,"In OnlyIdentified: $OnlyIdentifyB"); 
+				IPS_Sleep(20);
+				$OnlyIdentifyB=$this->getBuffer("OnlyIdentifyB");
 			}	
 			//
 			if ($debug) IPS_LogMessage($Name,"OnlyIdentify beendet erg=$erg");
@@ -606,7 +612,7 @@ Fingerreader GT511C3
 					IPS_LogMessage($Name,"ResponseAuswertung: GetEnrollCount erfolgreich - belegte Speicherplätze: ".hexdec($word1));
 					$this->SetBuffer("GetEnrollCountB",hexdec($word1));
 				}
-				elseif (($Befehl == "OnlyIdentify") && ($word1 != '0000')){		//($word1 != '0000') um ACK-Antwort nicht als Speicher zu erkennen
+				elseif (($Befehl == "OnlyIdentify") && ($word1 != '0000')){		//($word1 != '0000') um ACK-Antwort nicht als Identify + Speicher zu erkennen
 					IPS_LogMessage($Name,"ResponseAuswertung: $Befehl: - Fingerabdruck erkannt - Speicherplatz: ".(hexdec($word1)));  //
 					$Identify_ID=IPS_GetVariableIDByName("Identify",$this->InstanceID);
 					$Speicherplatz_ID=IPS_GetVariableIDByName("Speicherplatz",$Identify_ID);
