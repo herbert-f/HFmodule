@@ -358,27 +358,27 @@ Fingerreader GT511C3
 			$Command=array("\x51","\x00");									
 			$Parameter=array("\x00","\x00","\x00","\x00");
 			$sendestring=$this->buildstring ($Parameter,$Command);
-			$erg=$this->senden ($sendestring,"OnlyIdentify",2,200,"ACK");		//
+			$erg=$this->senden ($sendestring,"OnlyIdentify",2,100,"ACK");		//
 			$Identify_ID=IPS_GetVariableIDByName("Identify",$this->InstanceID);
 			//IPS_Sleep(200);
 			$OnlyIdentifyB=$this->getBuffer("OnlyIdentifyB");
 			$Ueberlauf=0;
-			while (($OnlyIdentifyB=="true") || ($OnlyIdentifyB=="false") || ($Ueberlauf>5)) {		//nur wenn $OnlyIdentifyB zugewiesen durch Antwort
-				//Weise Buffer(String) Ergebnis in Boolean zu
-				if($this->getBuffer("OnlyIdentifyB")=="true") {
-					$erg=true;
-					SetValueBoolean($Identify_ID,true);
-					if ($debug) IPS_LogMessage($Name,"Setze Variable Identify ($Identify_ID) auf true");			
-				}
-				elseif($this->getBuffer("OnlyIdentifyB")=="false") {
-					SetValueBoolean($Identify_ID,false);				
-					$erg=false;
-				}	
-				elseif ($debug) IPS_LogMessage($Name,"In OnlyIdentified: $OnlyIdentifyB"); 
-				IPS_Sleep(20);
+			while (($OnlyIdentifyB=="true") || ($OnlyIdentifyB=="false") || ($Ueberlauf>7)) {		//nur wenn $OnlyIdentifyB zugewiesen durch Antwort
+				if ($debug) IPS_LogMessage($Name,"In OnlyIdentified: $OnlyIdentifyB Ueberlauf=$Ueberlauf"); 
+				IPS_Sleep(30);
 				$Ueberlauf=$Ueberlauf+1;
 				$OnlyIdentifyB=$this->getBuffer("OnlyIdentifyB");
-			}	
+			}
+			//Weise Buffer(String) Ergebnis in Boolean zu
+			if($this->getBuffer("OnlyIdentifyB")=="true") {
+				$erg=true;
+				SetValueBoolean($Identify_ID,true);
+				if ($debug) IPS_LogMessage($Name,"Setze Variable Identify ($Identify_ID) auf true");			
+			}
+			elseif($this->getBuffer("OnlyIdentifyB")=="false") {
+				SetValueBoolean($Identify_ID,false);				
+				$erg=false;
+			}			
 			//
 			if ($debug) IPS_LogMessage($Name,"OnlyIdentify beendet erg=$erg");
 			return ($erg);
