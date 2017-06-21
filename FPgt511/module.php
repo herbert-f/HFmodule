@@ -389,10 +389,10 @@ Fingerreader GT511C3
 			$debug=$this->ReadPropertyBoolean("logmax");
 			$this->setBuffer("FingerPressB","false");
 			$Name=IPS_GetName($this->InstanceID);
-			$FingerPress_ID=IPS_GetVariableIDByName("FingerPressed",$Instanz_ID);
 			$this->setBuffer("Command","IsFingerPress");
 			$this->setBuffer("Answer","Begin");
 			$Instanz_ID = $this->InstanceID;
+			$FingerPress_ID=IPS_GetVariableIDByName("FingerPressed",$Instanz_ID);			
 			if ($debug) IPS_LogMessage($Name,"IsFingerPress gestartet");
 			$Command=array("\x26","\x00");										//Response = Ack: Parameter = 0: finger is pressed Parameter = nonzero: finger is not pressed
 			$Parameter=array("\x01","\x00","\x00","\x00");                      //This command is used while enrollment, the host waits to take off the finger per enrollment stage
