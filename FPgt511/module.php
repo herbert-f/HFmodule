@@ -358,7 +358,7 @@ Fingerreader GT511C3
 			$Command=array("\x51","\x00");									
 			$Parameter=array("\x00","\x00","\x00","\x00");
 			$sendestring=$this->buildstring ($Parameter,$Command);
-			$erg=$this->senden ($sendestring,"OnlyIdentify",2,200,"ACK");
+			$erg=$this->senden ($sendestring,"OnlyIdentify",2,400,"ACK");		//200 zu kurz
 			$Identify_ID=IPS_GetVariableIDByName("Identify",$this->InstanceID);
 			//Weise Buffer(String) Ergebnis in Boolean zu
 			if($this->getBuffer("OnlyIdentifyB")=="true") {
@@ -606,7 +606,7 @@ Fingerreader GT511C3
 					$this->SetBuffer("GetEnrollCountB",hexdec($word1));
 				}
 				elseif ($Befehl == "OnlyIdentify") {
-					IPS_LogMessage($Name,"ACK: - Fingerabdruck erkannt - Speicherplatz: ".(hexdec($word1)));  //
+					IPS_LogMessage($Name,"ResponseAuswertung: $Befehl: - Fingerabdruck erkannt - Speicherplatz: ".(hexdec($word1)));  //
 					$Identify_ID=IPS_GetVariableIDByName("Identify",$this->InstanceID);
 					$Speicherplatz_ID=IPS_GetVariableIDByName("Speicherplatz",$Identify_ID);
 					SetValueInteger($Speicherplatz_ID,(hexdec($word1)));					
