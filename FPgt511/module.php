@@ -908,7 +908,7 @@ Fingerreader GT511C3
 $Par_ID=IPS_GetParent($_IPS[\'SELF\']);
 $Name=IPS_GetName(IPS_GetParent($Par_ID));
 if($_IPS[\'SENDER\'] === "TimerEvent") {
-	SetValueBoolean($Par_ID,false);
+	if (GetValueBoolean($Par_ID)!=false) SetValueBoolean($Par_ID,false);
 	IPS_LogMessage($Name,"IDENTIFY über Timer wieder ausgeschaltet (".$_IPS[\'SELF\'].")");
 	IPS_SetScriptTimer($_IPS[\'SELF\'],0);
 }	
