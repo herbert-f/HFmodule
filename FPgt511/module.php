@@ -605,7 +605,7 @@ Fingerreader GT511C3
 					IPS_LogMessage($Name,"ResponseAuswertung: GetEnrollCount erfolgreich - belegte Speicherplätze: ".hexdec($word1));
 					$this->SetBuffer("GetEnrollCountB",hexdec($word1));
 				}
-				elseif ($Befehl == "OnlyIdentify") {
+				elseif (($Befehl == "OnlyIdentify") && ($word1 != '0000')){		//($word1 != '0000') um ACK-Antwort nicht als Speicher zu erkennen
 					IPS_LogMessage($Name,"ResponseAuswertung: $Befehl: - Fingerabdruck erkannt - Speicherplatz: ".(hexdec($word1)));  //
 					$Identify_ID=IPS_GetVariableIDByName("Identify",$this->InstanceID);
 					$Speicherplatz_ID=IPS_GetVariableIDByName("Speicherplatz",$Identify_ID);
