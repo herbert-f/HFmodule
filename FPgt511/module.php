@@ -362,7 +362,8 @@ Fingerreader GT511C3
 			$Identify_ID=IPS_GetVariableIDByName("Identify",$this->InstanceID);
 			//IPS_Sleep(200);
 			$OnlyIdentifyB=$this->getBuffer("OnlyIdentifyB");
-			while (($OnlyIdentifyB=="true") || ($OnlyIdentifyB=="false")) {		//nur wenn $OnlyIdentifyB zugewiesen durch Antwort
+			$Ueberlauf=0;
+			while (($OnlyIdentifyB=="true") || ($OnlyIdentifyB=="false") || ($Ueberlauf>5)) {		//nur wenn $OnlyIdentifyB zugewiesen durch Antwort
 				//Weise Buffer(String) Ergebnis in Boolean zu
 				if($this->getBuffer("OnlyIdentifyB")=="true") {
 					$erg=true;
@@ -375,6 +376,7 @@ Fingerreader GT511C3
 				}	
 				elseif ($debug) IPS_LogMessage($Name,"In OnlyIdentified: $OnlyIdentifyB"); 
 				IPS_Sleep(20);
+				$Ueberlauf=$Ueberlauf+1;
 				$OnlyIdentifyB=$this->getBuffer("OnlyIdentifyB");
 			}	
 			//
