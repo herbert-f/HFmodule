@@ -16,7 +16,8 @@ Fingerreader GT511C3
 			$this->RegisterVariableString ("Firmwaredatum", "Firmwaredatum");
 			$this->RegisterVariableBoolean ("Identify","Identify","","-10" );
 			$Speicherplatz_ID=$this->RegisterVariableInteger ("Speicherplatz","Speicherplatz","","-5" );
-			$this->RegisterVariableBoolean ("LED","LED","~Switch","-5" );		
+			$this->RegisterVariableBoolean ("LED","LED","~Switch","-5" );
+			$this->RegisterVariableBoolean ("FingerPressed","FingerPressed","~Switch","-8" );			
 			//erst nach Variablenerstellung	+++			
 			//
 			$this->CreateScriptLED_Ein();
@@ -388,6 +389,7 @@ Fingerreader GT511C3
 			$debug=$this->ReadPropertyBoolean("logmax");
 			$this->setBuffer("FingerPressB","false");
 			$Name=IPS_GetName($this->InstanceID);
+			$FingerPress_ID=IPS_GetVariableIDByName("FingerPressed",$Instanz_ID);
 			$this->setBuffer("Command","IsFingerPress");
 			$this->setBuffer("Answer","Begin");
 			$Instanz_ID = $this->InstanceID;
@@ -397,8 +399,14 @@ Fingerreader GT511C3
 			$sendestring=$this->buildstring ($Parameter,$Command);
 			$this->senden ($sendestring,"IsFingerPress",1,300,"ACK");
 			//Weise Buffer(String) Ergebnis in Boolean zu
-			if($this->getBuffer("FingerPressB")=="true") $erg=true;
-			else $erg=false;
+			if($this->getBuffer("FingerPressB")=="true") {
+				If (GetValueBoolean($FingerPress_ID)!=true) SetValueBoolean($FingerPress_ID,true);
+				$erg=true;
+			}	
+			else {
+				If (GetValueBoolean($FingerPress_ID)!=false) SetValueBoolean($FingerPress_ID,false);				
+				$erg=false;
+			}	
 			//
 			if ($debug) IPS_LogMessage($Name,"IsFingerPress beendet: $erg"); 
 			return $erg;													//Auswertung über ResponseParameterAuswertung 
