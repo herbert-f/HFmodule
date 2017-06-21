@@ -358,7 +358,7 @@ Fingerreader GT511C3
 			$Command=array("\x51","\x00");									
 			$Parameter=array("\x00","\x00","\x00","\x00");
 			$sendestring=$this->buildstring ($Parameter,$Command);
-			$erg=$this->senden ($sendestring,"OnlyIdentify",2,400,"ACK");		//100 zu klein
+			$erg=$this->senden ($sendestring,"OnlyIdentify",2,200,"ACK");		//100 zu klein
 			$Identify_ID=IPS_GetVariableIDByName("Identify",$this->InstanceID);
 			//IPS_Sleep(200);
 			$OnlyIdentifyB=$this->getBuffer("OnlyIdentifyB");
@@ -395,7 +395,7 @@ Fingerreader GT511C3
 			$Command=array("\x26","\x00");										//Response = Ack: Parameter = 0: finger is pressed Parameter = nonzero: finger is not pressed
 			$Parameter=array("\x01","\x00","\x00","\x00");                      //This command is used while enrollment, the host waits to take off the finger per enrollment stage
 			$sendestring=$this->buildstring ($Parameter,$Command);
-			$this->senden ($sendestring,"IsFingerPress",1,100,"ACK");
+			$this->senden ($sendestring,"IsFingerPress",1,200,"ACK");
 			//Weise Buffer(String) Ergebnis in Boolean zu
 			if($this->getBuffer("FingerPressB")=="true") $erg=true;
 			else $erg=false;
