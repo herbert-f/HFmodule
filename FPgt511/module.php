@@ -328,7 +328,7 @@ Fingerreader GT511C3
 			$this->setBuffer("Answer","Begin");
 			if ($debug) IPS_LogMessage($Name,"Identify gestartet");         // 1:N Identification of the capture fingerprint image with the database
 			$erg=$this->CaptureFinger(false);
-			IPS_Sleep(50);
+			IPS_Sleep(500);
 			if($erg=="true") {
 				IPS_LogMessage($Name,"Identify: CaptureFinger erfolgreich - Step 1 (von 2)"); 
 				$erg=$this-> OnlyIdentify();
