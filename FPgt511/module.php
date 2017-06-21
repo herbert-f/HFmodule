@@ -360,7 +360,6 @@ Fingerreader GT511C3
 			$sendestring=$this->buildstring ($Parameter,$Command);
 			$erg=$this->senden ($sendestring,"OnlyIdentify",2,200,"ACK");		//
 			$Identify_ID=IPS_GetVariableIDByName("Identify",$this->InstanceID);
-			IPS_Sleep(100);
 			//Weise Buffer(String) Ergebnis in Boolean zu
 			if($this->getBuffer("OnlyIdentifyB")=="true") {
 				$erg=true;
