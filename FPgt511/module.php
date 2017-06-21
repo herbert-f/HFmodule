@@ -17,7 +17,7 @@ Fingerreader GT511C3
 			$this->RegisterVariableBoolean ("Identify","Identify","","-10" );
 			$Speicherplatz_ID=$this->RegisterVariableInteger ("Speicherplatz","Speicherplatz","","-5" );
 			$this->RegisterVariableBoolean ("LED","LED","~Switch","-5" );
-			$this->RegisterVariableBoolean ("FingerPressed","FingerPressed","~Switch","-8" );			
+			$this->RegisterVariableBoolean ("FingerPressed","FingerPressed","","-8" );			
 			//erst nach Variablenerstellung	+++			
 			//
 			$this->CreateScriptLED_Ein();
