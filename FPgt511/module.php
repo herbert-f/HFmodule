@@ -228,7 +228,7 @@ Fingerreader GT511C3
 				if ($debug) IPS_LogMessage($Name,"SetLED ausschalten");
 			}
 			$sendestring=$this->buildstring ($Parameter,$Command);
-			$this->senden ($sendestring,"SetLED",2,200,"ACK");
+			$this->senden ($sendestring,"SetLED",2,300,"ACK");
 			//Weise Buffer(String) Ergebnis in Boolean zu
 			if($this->getBuffer("SetLEDB")=="true") $erg=true;
 			else $erg=false;
@@ -274,7 +274,7 @@ Fingerreader GT511C3
 			//print_r($Parameter);
 			$sendestring=$this->buildstring ($Parameter,$Command);
 			//senden ($sendestring,$functionname,$replys,$delay,$answer)
-			$this->senden ($sendestring,"CheckEnrolled",0,200,"ACK");		//NOACK für Enrollment erforderlich?	
+			$this->senden ($sendestring,"CheckEnrolled",0,300,"ACK");		//NOACK für Enrollment erforderlich?	
 			//Weise Buffer(String) Ergebnis in Boolean zu
 			if($this->getBuffer("CheckEnrolledB")=="true") {
 				$erg=true;
@@ -302,7 +302,7 @@ Fingerreader GT511C3
 			else {
 				$Parameter=array("\x00","\x00","\x00","\x00");                   //Parameter =0: not best image, but fast  Nonzero:best image, but slow
 				if ($debug) IPS_LogMessage($Name,"CaptureFinger gestartet: quality low - but quickly"); 
-				$time=200;
+				$time=300;
 			}
 			$sendestring=$this->buildstring ($Parameter,$Command);
 			$this->senden ($sendestring,"CaptureFinger",2,$time,"ACK");
@@ -484,7 +484,7 @@ Fingerreader GT511C3
 			$Command=array("\x02","\x00");										//0: not to get extra info Nonzero: to get extra info
 			$Parameter=array("\x00","\x00","\x00","\x00");
 			$sendestring=$this->buildstring ($Parameter,$Command);
-			$erg=$this->senden ($sendestring,"Close",0,200,"ACK");
+			$erg=$this->senden ($sendestring,"Close",0,300,"ACK");
 			if ($debug) IPS_LogMessage($Name,"Close beendet"); 
 			return $erg;
 		}
@@ -710,7 +710,7 @@ Fingerreader GT511C3
 				IPS_Sleep($delay);
 				$Antwort=$this->GetBuffer("Answer");
 				//
-				if ($debug) IPS_LogMessage($Name,"Senden: Letzter Befehl: $Befehl, Letzte Antwort: ".$this->GetBuffer("Answer"));
+				if ($debug) IPS_LogMessage($Name,"Senden: Aktueller Befehl: $Befehl, Letzte Antwort: ".$this->GetBuffer("Answer"));
 				If (($Antwort!=$answer) && ($Antwort!="NOACK") && ($Antwort!="Begin")) 	{
 					if ($debug) IPS_LogMessage($Name,"$functionname- Fehler unbekannte Antwort: $Antwort - Starte COM-SS neu!");
 					IPS_Sleep($delay);
