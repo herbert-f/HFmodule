@@ -302,7 +302,7 @@ Fingerreader GT511C3
 			else {
 				$Parameter=array("\x00","\x00","\x00","\x00");                   //Parameter =0: not best image, but fast  Nonzero:best image, but slow
 				if ($debug) IPS_LogMessage($Name,"CaptureFinger gestartet: quality low - but quickly"); 
-				$time=300;
+				$time=500;
 			}
 			$sendestring=$this->buildstring ($Parameter,$Command);
 			$this->senden ($sendestring,"CaptureFinger",2,$time,"ACK");
