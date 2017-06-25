@@ -359,7 +359,7 @@ Fingerreader GT511C3
 			$Command=array("\x51","\x00");									
 			$Parameter=array("\x00","\x00","\x00","\x00");
 			$sendestring=$this->buildstring ($Parameter,$Command);
-			$erg=$this->senden ($sendestring,"OnlyIdentify",2,800,"ACK");		//600 zu klein
+			$erg=$this->senden ($sendestring,"OnlyIdentify",2,1000,"ACK");		//800 zu klein
 			$Identify_ID=IPS_GetVariableIDByName("Identify",$this->InstanceID);
 			//IPS_Sleep(200);
 			$OnlyIdentifyB=$this->getBuffer("OnlyIdentifyB");
